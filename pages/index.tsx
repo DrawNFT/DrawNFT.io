@@ -23,21 +23,26 @@ const Home: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
+  const [imageBlob, setImageBlob] = useState<Blob | undefined>();
 
   const web3Handler = async () => {
     const handleAccount = async () => {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccount(accounts[0]);
+      if (window.ethereum) {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccount(accounts[0]);
+      }
     };
 
     const handleNFTContract = async () => {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      setNftContract(
-        new ethers.Contract(DrawNFTAddress.address, DrawNFT.abi, signer)
-      );
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        setNftContract(
+          new ethers.Contract(DrawNFTAddress.address, DrawNFT.abi, signer)
+        );
+      }
     };
 
     await handleAccount();
@@ -53,7 +58,7 @@ const Home: FC = () => {
       <Modal
         showModal={showModal}
         setShowModal={setShowModal}
-        canvasRef={canvasRef}
+        imageBlob={imageBlob}
         nftContract={nftContract}
         account={account}
       />
@@ -142,7 +147,6 @@ const Home: FC = () => {
               className="block w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const undo = canvasRef.current?.undo;
-
                 if (undo) {
                   undo();
                 }
@@ -154,7 +158,6 @@ const Home: FC = () => {
               className="block w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const redo = canvasRef.current?.redo;
-
                 if (redo) {
                   redo();
                 }
@@ -166,7 +169,6 @@ const Home: FC = () => {
               className="block w-full bg-red-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const clearCanvas = canvasRef.current?.clearCanvas;
-
                 if (clearCanvas) {
                   clearCanvas();
                 }
@@ -177,7 +179,32 @@ const Home: FC = () => {
             <button
               className="block w-full bg-green-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
-                setShowModal(true);
+                const createImage = async () => {
+                  const exportImage = canvasRef.current?.exportImage;
+
+                  if (exportImage) {
+                    const dataURItoBlob = (dataURI: string): Blob => {
+                      var byteString = Buffer.from(dataURI.split(",")[1], "base64");
+
+                      var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+                      var ab = new ArrayBuffer(byteString.length);
+
+                      var ia = new Uint8Array(ab);
+
+                      for (var i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString[i];
+                      }
+
+                      var blob = new Blob([ab], { type: mimeString });
+                      return blob;
+                    };
+                    const dataURI = await exportImage("png")
+                    setImageBlob(dataURItoBlob(dataURI));
+                  }
+                };
+
+                createImage().then(() => { setShowModal(true); });
               }}
             >
               I am done with my masterpiece!

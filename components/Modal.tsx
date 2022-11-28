@@ -8,12 +8,12 @@ import {
 } from "react";
 import { ethers } from "ethers";
 import { NFTStorage, Blob } from "nft.storage";
-import { ReactSketchCanvasRef } from "react-sketch-canvas";
+import ModalWithText from "./ModalWithText";
 
 type ModalProps = {
     showModal: boolean;
     setShowModal: Dispatch<SetStateAction<boolean>>;
-    canvasRef: RefObject<ReactSketchCanvasRef>;
+    imageBlob?: Blob;
     nftContract?: ethers.Contract;
     account?: string;
 };
@@ -27,7 +27,7 @@ enum MintStatus {
 const Modal: FC<ModalProps> = ({
     showModal,
     setShowModal,
-    canvasRef,
+    imageBlob,
     nftContract,
     account,
 }) => {
@@ -35,29 +35,19 @@ const Modal: FC<ModalProps> = ({
         return null;
     }
 
+    if (!imageBlob) {
+        return (<ModalWithText setShowModal={setShowModal} text="Couldn't convert the image to the required format!" />);
+    }
+
+    if (!nftContract) {
+        return (<ModalWithText setShowModal={setShowModal} text="Please make sure that you are connected with your Wallet!" />);
+    }
+
     const [nftName, setNftName] = useState<string>();
-    const [exportedDataURI, setExportedDataURI] = useState<string | undefined>();
     const [nftDescription, setNftDescription] = useState<string>();
     const [currentMintText, setCurrentMintText] = useState<string | undefined>();
-    const [mintStatus, setMintStatus] = useState<MintStatus>(
-        MintStatus.NotStarted
-    );
+    const [mintStatus, setMintStatus] = useState<MintStatus>(MintStatus.NotStarted);
 
-    useEffect(() => {
-        const createImage = async () => {
-            const exportImage = canvasRef.current?.exportImage;
-
-            if (exportImage) {
-                setExportedDataURI(await exportImage("png"));
-            }
-        };
-
-        createImage();
-    }, []);
-
-    if (!exportedDataURI) {
-        return null;
-    }
 
     const ipfsClient = new NFTStorage({
         token: process.env.NFT_STORAGE_KEY || "",
@@ -66,84 +56,60 @@ const Modal: FC<ModalProps> = ({
     const handleExport = async () => {
         setMintStatus(MintStatus.Ongoing);
         setCurrentMintText("Process is starting...");
-        if (exportedDataURI && nftContract) {
-            try {
-                const dataURItoBlob = (dataURI: string): Blob => {
-                    var byteString = Buffer.from(dataURI.split(",")[1], "base64");
 
-                    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-                    var ab = new ArrayBuffer(byteString.length);
-
-                    var ia = new Uint8Array(ab);
-
-                    for (var i = 0; i < byteString.length; i++) {
-                        ia[i] = byteString[i];
-                    }
-
-                    var blob = new Blob([ab], { type: mimeString });
-                    return blob;
-                };
-
-                const signMessage = async (): Promise<ethers.Signature> => {
-                    const signer = ethers.Wallet.fromMnemonic(
-                        process.env.SIGNER_MNEMONIC || ""
-                    );
-
-                    // message to sign
-                    const message = `${await nftContract.readNonce(account)}${account}`;
-                    const messageHash = ethers.utils.id(message);
-                    const messageHashArray = ethers.utils.arrayify(messageHash);
-
-                    // sign hashed message
-                    const signature = await signer.signMessage(messageHashArray);
-
-                    // split signature
-                    return ethers.utils.splitSignature(signature);
-                };
-
-                setCurrentMintText("Changing the image type...");
-                const blob = dataURItoBlob(exportedDataURI);
-
-                setCurrentMintText("Signing the message...");
-                const signature = await signMessage();
-
-                setCurrentMintText("Image is uploading to IPFS...");
-                const imageFile = new File([blob], `image.png`, { type: "image/png" });
-                const cidImage = await ipfsClient.storeDirectory([imageFile]);
-
-                setCurrentMintText("Metadata is uploading to IPFS...");
-                const metaData = JSON.stringify({
-                    name: nftName,
-                    description: nftDescription,
-                    image: `https://${cidImage}.ipfs.nftstorage.link/image.png`,
-                });
-                const cidMetadata = await ipfsClient.storeBlob(new Blob([metaData]));
-
-                setCurrentMintText("Waiting for the MetaMask confirmation...");
-                const metaDataUri = `https://${cidMetadata}.ipfs.nftstorage.link/`;
-
-                const messageVerifyAttributes = {
-                    v: signature.v,
-                    s: signature.s,
-                    r: signature.r,
-                };
-                const tx = await nftContract.safeMint(
-                    metaDataUri,
-                    messageVerifyAttributes,
-                    {
-                        value: ethers.utils.parseEther("0.07"),
-                    }
+        try {
+            const signMessage = async (): Promise<ethers.Signature> => {
+                const signer = ethers.Wallet.fromMnemonic(
+                    process.env.SIGNER_MNEMONIC || ""
                 );
 
-                setCurrentMintText("Waiting for the confirmation...");
-                await tx.wait();
-                setCurrentMintText("Process Finished! You can check your masterpiece by using OpenSea");
-            } catch (e) {
-                setCurrentMintText(`Process Failed! ${e}`);
-            }
-        } else {
-            setCurrentMintText("Process Failed! No Contact data or Image data");
+                // message to sign
+                const message = `${await nftContract.readNonce(account)}${account}`;
+                const messageHash = ethers.utils.id(message);
+                const messageHashArray = ethers.utils.arrayify(messageHash);
+
+                // sign hashed message
+                const signature = await signer.signMessage(messageHashArray);
+
+                // split signature
+                return ethers.utils.splitSignature(signature);
+            };
+            setCurrentMintText("Signing the message...");
+            const signature = await signMessage();
+
+            setCurrentMintText("Image is uploading to IPFS...");
+            const imageFile = new File([imageBlob], `image.png`, { type: "image/png" });
+            const cidImage = await ipfsClient.storeDirectory([imageFile]);
+
+            setCurrentMintText("Metadata is uploading to IPFS...");
+            const metaData = JSON.stringify({
+                name: nftName,
+                description: nftDescription,
+                image: `https://${cidImage}.ipfs.nftstorage.link/image.png`,
+            });
+            const cidMetadata = await ipfsClient.storeBlob(new Blob([metaData]));
+
+            setCurrentMintText("Waiting for the MetaMask confirmation...");
+            const metaDataUri = `https://${cidMetadata}.ipfs.nftstorage.link/`;
+
+            const messageVerifyAttributes = {
+                v: signature.v,
+                s: signature.s,
+                r: signature.r,
+            };
+            const tx = await nftContract.safeMint(
+                metaDataUri,
+                messageVerifyAttributes,
+                {
+                    value: ethers.utils.parseEther("0.07"),
+                }
+            );
+
+            setCurrentMintText("Waiting for the confirmation...");
+            await tx.wait();
+            setCurrentMintText("Process Finished! You can check your masterpiece by using OpenSea");
+        } catch (e) {
+            setCurrentMintText(`Process Failed! Make sure you are connected to the ETH network with your Wallet`);
         }
         setMintStatus(MintStatus.Done);
     };
@@ -155,7 +121,7 @@ const Modal: FC<ModalProps> = ({
                     <>
                         <div className="flex justify-center">
                             <img
-                                src={exportedDataURI}
+                                src={URL.createObjectURL(imageBlob)}
                                 className="max-w-xs max-h-xs border border-black m-3"
                             />
                         </div>
