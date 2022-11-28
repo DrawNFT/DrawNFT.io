@@ -10,24 +10,37 @@ type NavBarProps = {
 
 const NavBar: FC<NavBarProps> = ({ accountId, web3Handler, nftContract }) => {
     return (
-        <nav className="border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40">
+        <nav className="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40">
             <div className="flex flex-wrap items-center justify-between">
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4">
                     <Link href="/">Home</Link>
-                    <Link href="https://github.com/DrawNFT/DrawNFT.io">Github</Link>
-                    <Link href="https://twitter.com/DrawNFTio">Twitter</Link>
+                    <Link
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://github.com/DrawNFT/DrawNFT.io"
+                    >
+                        Github
+                    </Link>
+                    <Link
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://twitter.com/DrawNFTio"
+                    >
+                        Twitter
+                    </Link>
                 </span>
 
-
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10">
-                    <button
-                        onClick={async () => {
-                            console.log(nftContract);
-                            await nftContract?.withdrawMintPayments();
-                        }}
-                    >
-                        Withdraw Payments
-                    </button>
+                    {accountId == process.env.WITHDRAW_ACCOUNT && (
+                        <button
+                            onClick={async () => {
+                                await nftContract?.withdrawMintPayments();
+                            }}
+                        >
+                            Withdraw Payments
+                        </button>
+                    )}
+
                     {accountId ? (
                         <p>{accountId}</p>
                     ) : (

@@ -36,18 +36,29 @@ const Modal: FC<ModalProps> = ({
     }
 
     if (!imageBlob) {
-        return (<ModalWithText setShowModal={setShowModal} text="Couldn't convert the image to the required format!" />);
+        return (
+            <ModalWithText
+                setShowModal={setShowModal}
+                text="Couldn't convert the image to the required format!"
+            />
+        );
     }
 
     if (!nftContract) {
-        return (<ModalWithText setShowModal={setShowModal} text="Please make sure that you are connected with your Wallet!" />);
+        return (
+            <ModalWithText
+                setShowModal={setShowModal}
+                text="Please make sure that you are connected with your Wallet!"
+            />
+        );
     }
 
     const [nftName, setNftName] = useState<string>();
     const [nftDescription, setNftDescription] = useState<string>();
     const [currentMintText, setCurrentMintText] = useState<string | undefined>();
-    const [mintStatus, setMintStatus] = useState<MintStatus>(MintStatus.NotStarted);
-
+    const [mintStatus, setMintStatus] = useState<MintStatus>(
+        MintStatus.NotStarted
+    );
 
     const ipfsClient = new NFTStorage({
         token: process.env.NFT_STORAGE_KEY || "",
@@ -78,7 +89,9 @@ const Modal: FC<ModalProps> = ({
             const signature = await signMessage();
 
             setCurrentMintText("Image is uploading to IPFS...");
-            const imageFile = new File([imageBlob], `image.png`, { type: "image/png" });
+            const imageFile = new File([imageBlob], `image.png`, {
+                type: "image/png",
+            });
             const cidImage = await ipfsClient.storeDirectory([imageFile]);
 
             setCurrentMintText("Metadata is uploading to IPFS...");
@@ -107,9 +120,13 @@ const Modal: FC<ModalProps> = ({
 
             setCurrentMintText("Waiting for the confirmation...");
             await tx.wait();
-            setCurrentMintText("Process Finished! You can check your masterpiece by using OpenSea");
+            setCurrentMintText(
+                "Process Finished! You can check your masterpiece by using OpenSea"
+            );
         } catch (e) {
-            setCurrentMintText(`Process Failed! Make sure you are connected to the ETH network with your Wallet`);
+            setCurrentMintText(
+                `Process Failed! Make sure you are connected to the ETH network with your Wallet`
+            );
         }
         setMintStatus(MintStatus.Done);
     };

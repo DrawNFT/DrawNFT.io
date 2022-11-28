@@ -10,7 +10,6 @@ const MAX_BRUSH_SIZE = 100;
 const BACKGROUND_IMAGE =
   "https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg";
 
-// navbar design fixes and add withdraw to the navbar
 const Home: FC = () => {
   const [account, setAccount] = useState<string | undefined>(undefined);
   const [nftContract, setNftContract] = useState<ethers.Contract | undefined>(
@@ -67,8 +66,9 @@ const Home: FC = () => {
         web3Handler={web3Handler}
         nftContract={nftContract}
       />
-      <div className="h-screen md:flex">
-        <div className="relative overflow-hidden md:flex md:w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 justify-around items-center">
+
+      <div className="w-full h-full md:h-screen md:flex">
+        <div className="w-full relative overflow-hidden md:flex md:w-2/3 bg-gradient-to-tr from-blue-800 to-purple-700 justify-around items-center">
           <div className="hidden md:block z-10 absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
           <div className="hidden md:block z-10 absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
           <div className="hidden md:block z-10 absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
@@ -83,10 +83,14 @@ const Home: FC = () => {
               exportWithBackgroundImage={false}
               width="650px"
               height="650px"
+              style={{
+                cursor:
+                  'url("https://cur.cursors-4u.net/toons/too-10/too935.cur"), auto !important;',
+              }}
             />
           </div>
         </div>
-        <div className="relative overflow-hidden md:flex justify-around items-center md:w-1/2 p-12">
+        <div className="w-full relative overflow-hidden md:flex justify-around items-center md:w-1/3 p-12">
           <div className="mx-auto w-full bg-white">
             <h1 className="text-xl font-bold capitalize mb-2">
               Canvas Settings
@@ -184,9 +188,15 @@ const Home: FC = () => {
 
                   if (exportImage) {
                     const dataURItoBlob = (dataURI: string): Blob => {
-                      var byteString = Buffer.from(dataURI.split(",")[1], "base64");
+                      var byteString = Buffer.from(
+                        dataURI.split(",")[1],
+                        "base64"
+                      );
 
-                      var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+                      var mimeString = dataURI
+                        .split(",")[0]
+                        .split(":")[1]
+                        .split(";")[0];
 
                       var ab = new ArrayBuffer(byteString.length);
 
@@ -199,12 +209,14 @@ const Home: FC = () => {
                       var blob = new Blob([ab], { type: mimeString });
                       return blob;
                     };
-                    const dataURI = await exportImage("png")
+                    const dataURI = await exportImage("png");
                     setImageBlob(dataURItoBlob(dataURI));
                   }
                 };
 
-                createImage().then(() => { setShowModal(true); });
+                createImage().then(() => {
+                  setShowModal(true);
+                });
               }}
             >
               I am done with my masterpiece!

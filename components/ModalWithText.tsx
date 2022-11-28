@@ -33,5 +33,4 @@ const ModalWithText: FC<ModalProps> = ({ text, setShowModal }) => {
     );
 };
 
-
 export default ModalWithText;
