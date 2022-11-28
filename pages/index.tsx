@@ -49,6 +49,7 @@ const Home: FC = () => {
   };
 
   useEffect(() => {
+    canvasRef?.current?.loadPaths(JSON.parse(localStorage.getItem("canvasPaths") || "[]"));
     web3Handler();
   }, []);
 
@@ -85,8 +86,16 @@ const Home: FC = () => {
               height="650px"
               style={{
                 cursor:
-                  'url("https://cur.cursors-4u.net/toons/too-10/too935.cur"), auto !important;',
+                  'url("https://cur.cursors-4u.net/toons/too-10/too935.cur"), auto !important',
               }}
+              onChange={
+                async () => {
+                  const exportPaths = canvasRef.current?.exportPaths;
+                  if (exportPaths) {
+                    localStorage.setItem("canvasPaths", JSON.stringify(await exportPaths()));
+                  }
+                }
+              }
             />
           </div>
         </div>
