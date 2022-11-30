@@ -1,14 +1,15 @@
-import { FC, useEffect, useRef, useState } from "react";
-import NavBar from "../components/Navbar";
-import { ReactSketchCanvas, ReactSketchCanvasRef } from "react-sketch-canvas";
-import Modal from "../components/Modal";
-import { ethers } from "ethers";
-import DrawNFT from "../contracts/abi/DrawNFT.json";
-import DrawNFTAddress from "../contracts/abi/DrawNFT-address.json";
+import { FC, useEffect, useRef, useState } from 'react';
+import NavBar from '../components/Navbar';
+import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
+import Modal from '../components/modal/MintModal';
+import { ethers } from 'ethers';
+import DrawNFT from '../contracts/abi/DrawNFT.json';
+import DrawNFTAddress from '../contracts/abi/DrawNFT-address.json';
+import MintModal from '../components/modal/MintModal';
 
 const MAX_BRUSH_SIZE = 100;
 const BACKGROUND_IMAGE =
-  "https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg";
+  'https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg';
 
 const Home: FC = () => {
   const [account, setAccount] = useState<string | undefined>(undefined);
@@ -16,7 +17,7 @@ const Home: FC = () => {
     undefined
   );
 
-  const [canvasBrushColor, setCanvasBrushColor] = useState<string>("#000000");
+  const [canvasBrushColor, setCanvasBrushColor] = useState<string>('#000000');
   const [canvasBrushRadius, setCanvasBrushRadius] = useState<number>(1);
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -28,7 +29,7 @@ const Home: FC = () => {
     const handleAccount = async () => {
       if (window.ethereum) {
         const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
+          method: 'eth_requestAccounts',
         });
         setAccount(accounts[0]);
       }
@@ -49,13 +50,15 @@ const Home: FC = () => {
   };
 
   useEffect(() => {
-    canvasRef?.current?.loadPaths(JSON.parse(localStorage.getItem("canvasPaths") || "[]"));
+    canvasRef?.current?.loadPaths(
+      JSON.parse(localStorage.getItem('canvasPaths') || '[]')
+    );
     web3Handler();
   }, []);
 
   return (
     <>
-      <Modal
+      <MintModal
         showModal={showModal}
         setShowModal={setShowModal}
         imageBlob={imageBlob}
@@ -88,14 +91,15 @@ const Home: FC = () => {
                 cursor:
                   'url("https://cur.cursors-4u.net/toons/too-10/too935.cur"), auto !important',
               }}
-              onChange={
-                async () => {
-                  const exportPaths = canvasRef.current?.exportPaths;
-                  if (exportPaths) {
-                    localStorage.setItem("canvasPaths", JSON.stringify(await exportPaths()));
-                  }
+              onChange={async () => {
+                const exportPaths = canvasRef.current?.exportPaths;
+                if (exportPaths) {
+                  localStorage.setItem(
+                    'canvasPaths',
+                    JSON.stringify(await exportPaths())
+                  );
                 }
-              }
+              }}
             />
           </div>
         </div>
@@ -198,14 +202,14 @@ const Home: FC = () => {
                   if (exportImage) {
                     const dataURItoBlob = (dataURI: string): Blob => {
                       var byteString = Buffer.from(
-                        dataURI.split(",")[1],
-                        "base64"
+                        dataURI.split(',')[1],
+                        'base64'
                       );
 
                       var mimeString = dataURI
-                        .split(",")[0]
-                        .split(":")[1]
-                        .split(";")[0];
+                        .split(',')[0]
+                        .split(':')[1]
+                        .split(';')[0];
 
                       var ab = new ArrayBuffer(byteString.length);
 
@@ -218,7 +222,7 @@ const Home: FC = () => {
                       var blob = new Blob([ab], { type: mimeString });
                       return blob;
                     };
-                    const dataURI = await exportImage("png");
+                    const dataURI = await exportImage('png');
                     setImageBlob(dataURItoBlob(dataURI));
                   }
                 };

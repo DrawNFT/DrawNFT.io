@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal Component Test Renders correctly with showModal=true 1`] = `
+<div>
+  <div
+    class="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+  >
+    <div
+      class="relative w-auto mx-auto max-w-7xl"
+    >
+      <div
+        class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+      >
+        <div
+          class="flex items-start justify-between px-5 py-3 border-b border-solid border-slate-200 rounded-t"
+        >
+          <h3
+            class="text-xl font-semibold"
+          >
+            Title
+          </h3>
+          <button
+            class="p-1 text-orange-900 opacity-70 float-right text-xl leading-none font-semibold outline-none focus:outline-none"
+          >
+            X
+          </button>
+        </div>
+        <p>
+          Emtpy Text
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="opacity-25 fixed inset-0 z-40 bg-black"
+  />
+</div>
+`;
