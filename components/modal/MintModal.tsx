@@ -20,6 +20,7 @@ const MintModal = ({
   account,
 }: MintModalProps) => {
   const modalTitle = 'Mint Your NFT!';
+
   if (!imageBlob) {
     return (
       <Modal

@@ -10,8 +10,8 @@ type MintViewProps = {
 };
 
 const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
-  const [nftName, setNftName] = useState<string>();
-  const [nftDescription, setNftDescription] = useState<string>();
+  const [nftName, setNftName] = useState<string>("");
+  const [nftDescription, setNftDescription] = useState<string>("");
   const [currentMintText, setCurrentMintText] = useState<string>();
   const [mintStatus, setMintStatus] = useState<MintStatus>(
     MintStatus.NotStarted
@@ -37,6 +37,7 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
               <input
                 id="message"
                 className="p-2.5 my-2 w-full text-sm rounded-lg border"
+                value={nftName}
                 onChange={(e) => {
                   setNftName(e.target.value);
                 }}
@@ -46,6 +47,7 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
                 id="message"
                 rows={6}
                 className="p-2.5 my-2 w-full text-sm rounded-lg border"
+                value={nftDescription}
                 onChange={(e) => {
                   setNftDescription(e.target.value);
                 }}

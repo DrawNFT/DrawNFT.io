@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 type ModalProps = {
   title: string;

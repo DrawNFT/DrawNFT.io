@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import NavBar from '../components/Navbar';
 import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
-import Modal from '../components/modal/MintModal';
 import { ethers } from 'ethers';
 import DrawNFT from '../contracts/abi/DrawNFT.json';
 import DrawNFTAddress from '../contracts/abi/DrawNFT-address.json';

@@ -1,7 +1,7 @@
 import MintModal from './MintModal';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from '@jest/globals';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
 jest.mock('./Modal', () => ({ children }: { children: React.ReactNode }) => {
   return (
