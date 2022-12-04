@@ -12,7 +12,9 @@ const BACKGROUND_IMAGE =
 
 const Home: FC = () => {
   const [account, setAccount] = useState<string | undefined>(undefined);
-  const nftContractRef = useRef<ethers.Contract | undefined>(undefined);
+  const [nftContract, setNftContract] = useState<ethers.Contract | undefined>(
+    undefined
+  );
 
   const [canvasBrushColor, setCanvasBrushColor] = useState<string>('#000000');
   const [canvasBrushRadius, setCanvasBrushRadius] = useState<number>(1);
@@ -36,10 +38,8 @@ const Home: FC = () => {
       if (window.ethereum) {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        nftContractRef.current = new ethers.Contract(
-          DrawNFTAddress.address,
-          DrawNFT.abi,
-          signer
+        setNftContract(
+          new ethers.Contract(DrawNFTAddress.address, DrawNFT.abi, signer)
         );
       }
     };
@@ -61,13 +61,13 @@ const Home: FC = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         imageBlob={imageBlob}
-        nftContract={nftContractRef.current}
+        nftContract={nftContract}
         account={account}
       />
       <NavBar
         accountId={account}
         web3Handler={web3Handler}
-        nftContract={nftContractRef.current}
+        nftContract={nftContract}
       />
 
       <div className="w-full h-full md:h-screen md:flex">
