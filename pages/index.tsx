@@ -65,7 +65,7 @@ const Home: FC = () => {
         account={account}
       />
       <NavBar
-        accountId={account}
+        account={account}
         web3Handler={web3Handler}
         nftContract={nftContract}
       />
