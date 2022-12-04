@@ -99,6 +99,7 @@ const mintImage = async (
       'Process Finished! You can check your masterpiece by using OpenSea'
     );
   } catch (e) {
+    console.log(e);
     setCurrentMintText(
       `Process Failed! Make sure you are connected to the ETH network with your Wallet`
     );
