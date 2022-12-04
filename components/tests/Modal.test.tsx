@@ -1,6 +1,5 @@
-import Modal from './Modal';
+import Modal from '../../components/modal/Modal';
 import { render } from '@testing-library/react';
-import { describe, expect, it } from '@jest/globals';
 
 describe('Modal Component Test', () => {
   const setShowModal = jest.fn();

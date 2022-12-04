@@ -5,7 +5,7 @@ module.exports = function (deployer) {
 
   deployer.deploy(DrawNFT).then(() => {
     fs.writeFileSync(
-      `./build/contracts/DrawNFT-address.json`,
+      `./contracts/abi/DrawNFT-address.json`,
       JSON.stringify({ address: DrawNFT.address }, undefined, 2)
     );
   });

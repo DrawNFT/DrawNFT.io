@@ -1,8 +1,7 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import { describe, expect, it } from '@jest/globals';
-import MintView from './MintView';
+import MintView from '../../components/modal/MintView';
 import { Dispatch, SetStateAction } from 'react';
-import { MintStatus } from './mintImage';
+import { MintStatus } from '../../components/modal/mintImage';
 
 let mintStatus: MintStatus;
 
@@ -11,9 +10,9 @@ jest.mock('nft.storage', () => ({
   NFTStorage: class {},
 }));
 
-jest.mock('./mintImage', () => ({
+jest.mock('../../components/modal/mintImage', () => ({
   __esModule: true,
-  ...jest.requireActual('./mintImage'),
+  ...jest.requireActual('../../components/modal/mintImage'),
   // Since the function is exported as default, we have to call defualt here
   default: (
     setMintStatus: Dispatch<SetStateAction<MintStatus>>,

@@ -1,9 +1,8 @@
-import MintModal from './MintModal';
+import MintModal from '../../components/modal/MintModal';
 import { render } from '@testing-library/react';
-import { describe, expect, it } from '@jest/globals';
 import React from 'react';
 
-jest.mock('./Modal', () => ({ children }: { children: React.ReactNode }) => {
+jest.mock('../../components/modal/Modal', () => ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <h1>Modal COMPONENT</h1>
@@ -12,7 +11,7 @@ jest.mock('./Modal', () => ({ children }: { children: React.ReactNode }) => {
   );
 });
 
-jest.mock('./MintView', () => () => {
+jest.mock('../../components/modal/MintView', () => () => {
   return (
     <>
       <h2>MintView COMPONENT</h2>

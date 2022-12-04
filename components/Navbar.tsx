@@ -14,6 +14,7 @@ const NavBar: FC<NavBarProps> = ({ accountId, web3Handler, nftContract }) => {
             <div className="flex flex-wrap items-center justify-between">
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4">
                     <Link href="/">Home</Link>
+                    <Link href="/whitepaper">White Paper</Link>
                     <Link
                         target="_blank"
                         rel="noopener noreferrer"

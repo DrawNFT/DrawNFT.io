@@ -1,5 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
-import mintImage, { MintStatus } from './mintImage';
+import mintImage, { MintStatus } from '../modal/mintImage';
 
 describe('Mint Image Function Test', () => {
   const setMintStatus = jest.fn();
