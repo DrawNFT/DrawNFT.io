@@ -31,7 +31,7 @@ specifiers:
   mocha: ^10.1.0
   next: 13.0.2
   nft.storage: ^7.0.0
-  prettier: ^2.7.1
+  prettier: ^2.8.0
   react: 18.2.0
   react-dom: 18.2.0
   react-sketch-canvas: ^6.2.0

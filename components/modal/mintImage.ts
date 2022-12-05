@@ -69,8 +69,6 @@ const mintImage = async (
     });
     const cidImage = await ipfsClient.storeDirectory([imageFile]);
 
-    console.log('cidImage', cidImage);
-
     setCurrentMintText('Metadata is uploading to IPFS...');
     const metaData = JSON.stringify({
       name: nftName,
@@ -78,7 +76,6 @@ const mintImage = async (
       image: `https://${cidImage}.ipfs.nftstorage.link/image.png`,
     });
 
-    console.log('metaData', metaData);
     const cidMetadata = await ipfsClient.storeBlob(new Blob([metaData]));
 
     setCurrentMintText('Waiting for the MetaMask confirmation...');

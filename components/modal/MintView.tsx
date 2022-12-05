@@ -84,16 +84,16 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
         <div className="flex justify-center items-center p-6">
           <div className="flex flex-col gap-8 items-center justify-center ">
             <p>It might take couple of minutes. Please be patient.</p>
-            <p>
+            <div>
               <b>Name:</b>
-              <div className="whitespace-normal break-all">{nftName}</div>
-            </p>
-            <p>
+              <p className="whitespace-normal break-all">{nftName}</p>
+            </div>
+            <div>
               <b>Description:</b>
-              <div className="whitespace-normal break-all">
+              <p className="whitespace-normal break-all">
                 {nftDescription}
-              </div>
-            </p>
+              </p>
+            </div>
             <p>{currentMintText}</p>
             <div className="w-40 h-40 border-t-4 border-b-4 border-green-900 rounded-full animate-spin"></div>
           </div>

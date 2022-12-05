@@ -38,8 +38,8 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
 
         address signer = ecrecover(prefixedHashMessage, signatureKeys.v, signatureKeys.r, signatureKeys.s);
         require(signer == signOwner, "Invalid Signature");
-        nonces[msg.sender].increment();
         _;
+        nonces[msg.sender].increment();
     }
 
     function safeMint(string memory externalTokenURI, SignatureKeys calldata keys) external payable verifyMessage(keys) returns (uint256) {

@@ -42,7 +42,11 @@
  */
 
 require('dotenv').config();
-const { GOERLI_TEST_MNEMONIC, INFURA_WEB_THREE_PROJECT_ID } = process.env;
+const {
+  GOERLI_TEST_MNEMONIC,
+  INFURA_WEB_THREE_PROJECT_ID,
+  INFURA_WEB_THREE_PROEJECT_SECRET,
+} = process.env;
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
@@ -86,7 +90,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           GOERLI_TEST_MNEMONIC,
-          `https://goerli.infura.io/v3/${INFURA_WEB_THREE_PROJECT_ID}`
+          `https://:${INFURA_WEB_THREE_PROEJECT_SECRET}@goerli.infura.io/v3/${INFURA_WEB_THREE_PROJECT_ID}`
         ),
       networkCheckTimeout: 10000,
       network_id: 5, // Goerli's id
