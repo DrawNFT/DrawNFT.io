@@ -10,8 +10,8 @@ type MintViewProps = {
 };
 
 const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
-  const [nftName, setNftName] = useState<string>("");
-  const [nftDescription, setNftDescription] = useState<string>("");
+  const [nftName, setNftName] = useState<string>('');
+  const [nftDescription, setNftDescription] = useState<string>('');
   const [currentMintText, setCurrentMintText] = useState<string>();
   const [mintStatus, setMintStatus] = useState<MintStatus>(
     MintStatus.NotStarted
@@ -84,6 +84,16 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
         <div className="flex justify-center items-center p-6">
           <div className="flex flex-col gap-8 items-center justify-center ">
             <p>It might take couple of minutes. Please be patient.</p>
+            <p>
+              <b>Name:</b>
+              <div className="whitespace-normal break-all">{nftName}</div>
+            </p>
+            <p>
+              <b>Description:</b>
+              <div className="whitespace-normal break-all">
+                {nftDescription}
+              </div>
+            </p>
             <p>{currentMintText}</p>
             <div className="w-40 h-40 border-t-4 border-b-4 border-green-900 rounded-full animate-spin"></div>
           </div>

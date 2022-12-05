@@ -32,7 +32,8 @@ const NavBar: FC<NavBarProps> = ({ account, web3Handler, nftContract }) => {
         </span>
 
         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10">
-          {account === process.env.WITHDRAW_ACCOUNT && (
+          {account && account?.toLowerCase() ===
+            process.env.WITHDRAW_ACCOUNT?.toLowerCase() && (
             <button
               onClick={async () => {
                 await nftContract?.withdrawMintPayments();
