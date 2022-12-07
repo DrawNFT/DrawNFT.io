@@ -1,14 +1,12 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import Link from 'next/link';
-import { ethers } from 'ethers';
+import { useWeb3Handler } from './utils/useWeb3Handler';
+import { useRouter } from 'next/router';
 
-type NavBarProps = {
-  account?: string;
-  web3Handler?: () => Promise<void>;
-  nftContract: ethers.Contract | undefined;
-};
+const NavBar: FC = () => {
+  const { account, nftContract } = useWeb3Handler();
+  const router = useRouter();
 
-const NavBar: FC<NavBarProps> = ({ account, web3Handler, nftContract }) => {
   return (
     <nav className="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40">
       <div className="flex flex-wrap items-center justify-between">
@@ -32,21 +30,28 @@ const NavBar: FC<NavBarProps> = ({ account, web3Handler, nftContract }) => {
         </span>
 
         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10">
-          {account && account?.toLowerCase() ===
-            process.env.WITHDRAW_ACCOUNT?.toLowerCase() && (
-            <button
-              onClick={async () => {
-                await nftContract?.withdrawMintPayments();
-              }}
-            >
-              Withdraw Payments
-            </button>
-          )}
+          {account &&
+            account?.toLowerCase() ===
+              process.env.WITHDRAW_ACCOUNT?.toLowerCase() && (
+              <button
+                onClick={async () => {
+                  await nftContract?.withdrawMintPayments();
+                }}
+              >
+                Withdraw Payments
+              </button>
+            )}
 
           {account ? (
             <p>{account}</p>
           ) : (
-            <button onClick={web3Handler}>Connect Wallet</button>
+            <button
+              onClick={() => {
+                alert('You need a web3 wallet to intract with this app!');
+              }}
+            >
+              Connect Wallet
+            </button>
           )}
         </span>
       </div>

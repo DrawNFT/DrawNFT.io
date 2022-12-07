@@ -1,9 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import NavBar from '../components/Navbar';
 import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
-import { ethers } from 'ethers';
-import DrawNFT from '../contracts/abi/DrawNFT.json';
-import DrawNFTAddress from '../contracts/abi/DrawNFT-address.json';
+
 import MintModal from '../components/modal/MintModal';
 
 const MAX_BRUSH_SIZE = 100;
@@ -11,48 +9,20 @@ const BACKGROUND_IMAGE =
   'https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg';
 
 const Home: FC = () => {
-  const [account, setAccount] = useState<string | undefined>(undefined);
-  const [nftContract, setNftContract] = useState<ethers.Contract | undefined>(
-    undefined
-  );
-
   const [canvasBrushColor, setCanvasBrushColor] = useState<string>('#000000');
-  const [canvasBrushRadius, setCanvasBrushRadius] = useState<number>(1);
+  const [canvasBrushRadius, setCanvasBrushRadius] = useState<number>(10);
+
+  const [isCanvasDrawingMode, setIsCanvasDrawingMode] = useState<boolean>(true);
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
   const [imageBlob, setImageBlob] = useState<Blob | undefined>();
 
-  const web3Handler = async () => {
-    const handleAccount = async () => {
-      if (window.ethereum) {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setAccount(accounts[0]);
-      }
-    };
-
-    const handleNFTContract = async () => {
-      if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        setNftContract(
-          new ethers.Contract(DrawNFTAddress.address, DrawNFT.abi, signer)
-        );
-      }
-    };
-
-    await handleAccount();
-    await handleNFTContract();
-  };
-
   useEffect(() => {
     canvasRef?.current?.loadPaths(
       JSON.parse(localStorage.getItem('canvasPaths') || '[]')
     );
-    web3Handler();
   }, []);
 
   return (
@@ -61,14 +31,8 @@ const Home: FC = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         imageBlob={imageBlob}
-        nftContract={nftContract}
-        account={account}
       />
-      <NavBar
-        account={account}
-        web3Handler={web3Handler}
-        nftContract={nftContract}
-      />
+      <NavBar />
 
       <div className="w-full h-full md:h-screen md:flex">
         <div className="w-full relative overflow-hidden md:flex md:w-2/3 bg-gradient-to-tr from-blue-800 to-purple-700 justify-around items-center">
@@ -76,7 +40,11 @@ const Home: FC = () => {
           <div className="hidden md:block z-10 absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
           <div className="hidden md:block z-10 absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
           <div className="hidden md:block z-10 absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="z-10 border-2 border-sky-700">
+          <div
+            className={`z-10 border-2 border-sky-700 ${
+              isCanvasDrawingMode ? 'cursor-pen' : 'cursor-eraser'
+            }`}
+          >
             <ReactSketchCanvas
               ref={canvasRef}
               strokeColor={canvasBrushColor}
@@ -86,10 +54,6 @@ const Home: FC = () => {
               exportWithBackgroundImage={false}
               width="650px"
               height="650px"
-              style={{
-                cursor:
-                  'url("https://cur.cursors-4u.net/toons/too-10/too935.cur"), auto !important',
-              }}
               onChange={async () => {
                 const exportPaths = canvasRef.current?.exportPaths;
                 if (exportPaths) {
@@ -142,6 +106,7 @@ const Home: FC = () => {
               onClick={() => {
                 const eraseMode = canvasRef.current?.eraseMode;
                 if (eraseMode) {
+                  setIsCanvasDrawingMode(true);
                   eraseMode(false);
                 }
               }}
@@ -154,6 +119,7 @@ const Home: FC = () => {
                 const eraseMode = canvasRef.current?.eraseMode;
                 if (eraseMode) {
                   eraseMode(true);
+                  setIsCanvasDrawingMode(false);
                 }
               }}
             >

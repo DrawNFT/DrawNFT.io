@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "migrations/1_initial_migration.js"
-, "test/contracts/DrawNFT.js"  ],
+, "contracts/test/contracts/DrawNFT.js"  ],
   "exclude": [
     "node_modules"
   ]

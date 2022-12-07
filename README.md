@@ -1,58 +1,77 @@
-1 - Write your contract under contracts
-2 - `truffle compile`
-3 - `truffle migrate --reset`
-3 - `truffle console`
-4 - Write your tests (heavy tests)
-5 - Connect to your backend(solidity) from your frontend
+# DrawNFT.io
 
-## TODO FOR PRODUCTION:
-Change abi folder with the new jsons created
-Change the deployer address
+DrawNFT.io is a platform built with TypeScript that allows users to create their own NFTs by drawing their own images and selling them on the open market.
 
-## Setup IPFS locally
+## Contributing to DrawNFT.io
 
-https://medium.com/@angellopozo/uploading-an-image-to-ipfs-e1f65f039da4 [Project Setup:] section
+We welcome all contributions to DrawNFT.io! Whether you're a seasoned developer or just starting out, there's a place for you in this project. Here's how to get started:
 
-To use it for the upload and mint: https://github.com/dappuniversity/nft_marketplace/blob/main/src/frontend/components/Create.js
+### Setting up the development environment
 
-## OpenSea Metada Config
+1. Fork the repository and clone it locally
+2. Install dependencies with `pnpm install`
+3. Compile and deploy contracts with `pnpm run test`
+4. Start the development server with `pnpm run dev`
 
-{
-"description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
-"external_url": "https://openseacreatures.io/3",
-"image": "https://storage.googleapis.com/opensea-prod.appspot.com/puffs/3.png",
-"name": "Dave Starbelly",
-"attributes": [ ... ]
-}
+### Submitting changes
 
-## Goerli deployment
+1. Create a new branch for your changes
+2. Make your changes and test them thoroughly
+3. Submit a pull request to the `develop` branch
 
-This version of µWS is not compatible with your Node.js build:
+### Code of Conduct
 
-Error: Cannot find module './uws_darwin_arm64_111.node'
-Falling back to a NodeJS implementation; performance may be degraded.
+We expect all contributors to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-# Compiling your contracts...
+## Project setup
 
-> Everything is up to date, there is nothing to compile.
+To set up the project locally, follow these steps:
 
-# Starting migrations...
+### Installing dependencies
 
-> Network name: 'goerli'
-> Network id: 5
-> Block gas limit: 30000000 (0x1c9c380)
+Run `pnpm install` to install all required dependencies.
 
-# 1_initial_migration.js
-# Summary
+### Compiling and deploying contracts
 
-> Total deployments: 1
-> Final cost: 0.075184723489842271 ETH
+Run `pnpm run test` to compile and deploy all contracts to a local test network.
 
-## EtherScan
+### Starting the development server
 
-https://goerli.etherscan.io/address/0x872ba5f2954881c8eb2636b55a4b422f1de99621
+Run `pnpm run dev` to start the development server and begin working on the project.
 
+## Running tests
 
-https://testnets.opensea.io/assets/goerli/0x872ba5f2954881c8eb2636b55a4b422f1de99621/1
+We have both Solidity and JavaScript tests in place to ensure the integrity of the project. To run these tests, follow these steps:
 
+### Running Solidity tests
+
+Run `pnpm run test` to run all Solidity tests.
+
+### Running JavaScript tests
+
+Run `pnpm run coverage` to run all JavaScript tests.
+
+## Deployment
+
+To deploy the project to a live network, follow these steps:
+
+### Setting up the deployment environment
+
+Make sure you have a [wallet](https://wallet.ethereum.org/) and some Ether in it for gas fees.
+
+### Deploying to a test network
+
+Run `pnpm run migrate --network rinkeby` to deploy the project to the Rinkeby test network.
+
+### Deploying to mainnet
+
+Run `pnpm run migrate --network mainnet` to deploy the project to the main Ethereum network.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+Thanks to [OpenZeppelin](https://openzeppelin.org/) for their solidity contracts and [OpenSea](https://opensea.io/) for the NFT marketplace platform.
 
