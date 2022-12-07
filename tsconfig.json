@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,9 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "migrations/1_initial_migration.js"
-, "contracts/test/contracts/DrawNFT.js"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "migrations/1_initial_migration.js",
+    "contracts/test/contracts/DrawNFT.js"
+  ],
+  "exclude": ["node_modules"]
 }
