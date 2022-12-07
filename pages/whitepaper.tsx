@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 const WhitePaper = () => {
   return (
     <>
-      <Navbar nftContract={undefined} />
+      <Navbar />
       <div className="px-4 py-8 max-w-xl mx-auto font-sans font-light leading-normal text-gray-800">
         <h1 className="text-2xl font-bold text-gray-700 mb-8">DrawNFT</h1>
         <p className="mb-6">
