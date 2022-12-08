@@ -20,9 +20,13 @@ const Home: FC = () => {
   const [imageBlob, setImageBlob] = useState<Blob | undefined>();
 
   useEffect(() => {
-    canvasRef?.current?.loadPaths(
-      JSON.parse(localStorage.getItem('canvasPaths') || '[]')
-    );
+    try {
+      canvasRef?.current?.loadPaths(
+        JSON.parse(localStorage.getItem('canvasPaths') || '[]')
+      );
+    } catch (e: any) {
+      console.error(e);
+    }
   }, []);
 
   return (
@@ -57,10 +61,14 @@ const Home: FC = () => {
               onChange={async () => {
                 const exportPaths = canvasRef.current?.exportPaths;
                 if (exportPaths) {
-                  localStorage.setItem(
-                    'canvasPaths',
-                    JSON.stringify(await exportPaths())
-                  );
+                  try {
+                    localStorage.setItem(
+                      'canvasPaths',
+                      JSON.stringify(await exportPaths())
+                    );
+                  } catch (e: any) {
+                    console.error(e);
+                  }
                 }
               }}
             />

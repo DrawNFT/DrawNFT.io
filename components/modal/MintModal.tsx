@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Blob } from 'nft.storage';
 import MintView from './MintView';
 import Modal from './Modal';
 import { useAccountStore } from '../utils/useAccountStore';

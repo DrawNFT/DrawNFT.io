@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import { NFTStorage } from 'nft.storage';
 import { Dispatch, SetStateAction } from 'react';
+import { IPFSHTTPClient } from 'ipfs-http-client/dist/src/types';
 
 export enum MintStatus {
   NotStarted,
@@ -13,12 +13,12 @@ const NFT_DESC_MIN_LENGTH = 10;
 
 const mintImage = async (
   setMintStatus: Dispatch<SetStateAction<MintStatus>>,
-  setCurrentMintText: Dispatch<SetStateAction<string | undefined>>,
+  setCurrentMintText: Dispatch<SetStateAction<string>>,
   nftContract: ethers.Contract,
   account: string,
   nftNameInput: string | undefined,
   nftDescriptionInput: string | undefined,
-  ipfsClient: NFTStorage,
+  ipfsClient: IPFSHTTPClient,
   imageBlob: Blob
 ) => {
   const nftName = nftNameInput?.trim();
@@ -61,26 +61,29 @@ const mintImage = async (
       return ethers.utils.splitSignature(signature);
     };
     setCurrentMintText('Signing the message...');
+
     const signature = await signMessage();
 
     setCurrentMintText('Image is uploading to IPFS...');
+
     const imageFile = new File([imageBlob], `image.png`, {
       type: 'image/png',
     });
-    const cidImage = await ipfsClient.storeDirectory([imageFile]);
+    const imageIpfsHash = (await ipfsClient.add(imageFile)).path;
 
     setCurrentMintText('Metadata is uploading to IPFS...');
+
     const metaData = JSON.stringify({
       name: nftName,
       description: nftDescription,
-      image: `https://${cidImage}.ipfs.nftstorage.link/image.png`,
+      image: `https://drawnft-io.infura-ipfs.io/ipfs/${imageIpfsHash}`,
     });
 
-    const cidMetadata = await ipfsClient.storeBlob(new Blob([metaData]));
+    const metadataIpfsHash = (await ipfsClient.add(metaData)).path;
 
     setCurrentMintText('Waiting for the MetaMask confirmation...');
-    const metaDataUri = `https://${cidMetadata}.ipfs.nftstorage.link/`;
 
+    const metaDataUri = `https://drawnft-io.infura-ipfs.io/ipfs/${metadataIpfsHash}`;
     const messageVerifyAttributes = {
       v: signature.v,
       s: signature.s,
@@ -95,7 +98,9 @@ const mintImage = async (
     );
 
     setCurrentMintText('Waiting for the confirmation...');
+
     await tx.wait();
+
     setCurrentMintText(
       'Process Finished! You can check your masterpiece by using OpenSea'
     );

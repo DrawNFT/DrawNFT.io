@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { NFTStorage } from 'nft.storage';
+import * as IPFS from 'ipfs-http-client';
 import { useState } from 'react';
 import mintImage, { MintStatus } from './mintImage';
 
@@ -12,13 +12,23 @@ type MintViewProps = {
 const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
   const [nftName, setNftName] = useState<string>('');
   const [nftDescription, setNftDescription] = useState<string>('');
-  const [currentMintText, setCurrentMintText] = useState<string>();
+  const [currentMintText, setCurrentMintText] = useState<string>('');
   const [mintStatus, setMintStatus] = useState<MintStatus>(
     MintStatus.NotStarted
   );
 
-  const ipfsClient = new NFTStorage({
-    token: process.env.NFT_STORAGE_KEY || '',
+  const projectId = process.env.INFURA_IPFS_PROJECT_ID;
+  const projectSecret = process.env.INFURA_IPFS_PROJECT_SECRET;
+  const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+  const ipfsClient = IPFS.create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+      authorization: auth,
+    },
   });
 
   switch (mintStatus) {
@@ -90,9 +100,7 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
             </div>
             <div>
               <b>Description:</b>
-              <p className="whitespace-normal break-all">
-                {nftDescription}
-              </p>
+              <p className="whitespace-normal break-all">{nftDescription}</p>
             </div>
             <p>{currentMintText}</p>
             <div className="w-40 h-40 border-t-4 border-b-4 border-green-900 rounded-full animate-spin"></div>
