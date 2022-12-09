@@ -8,6 +8,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>DrawNFT.io | Draw your masterpiece! </title>
+        <meta
+          name="description"
+          content="DrawNFT.io allows people to draw and export their creations as NFTs."
+        />
         <link rel="shortcut icon" href="/images/favicon.ico" />
         <link
           rel="apple-touch-icon"

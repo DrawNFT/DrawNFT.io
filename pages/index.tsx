@@ -4,10 +4,6 @@ import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
 
 import MintModal from '../components/modal/MintModal';
 
-const MAX_BRUSH_SIZE = 100;
-const BACKGROUND_IMAGE =
-  'https://upload.wikimedia.org/wikipedia/commons/7/70/Graph_paper_scan_1600x1000_%286509259561%29.jpg';
-
 const Home: FC = () => {
   const [canvasBrushColor, setCanvasBrushColor] = useState<string>('#000000');
   const [canvasBrushRadius, setCanvasBrushRadius] = useState<number>(10);
@@ -54,7 +50,7 @@ const Home: FC = () => {
               strokeColor={canvasBrushColor}
               strokeWidth={canvasBrushRadius}
               eraserWidth={canvasBrushRadius}
-              backgroundImage={BACKGROUND_IMAGE}
+              backgroundImage="draw-background.webp"
               exportWithBackgroundImage={false}
               width="650px"
               height="650px"
@@ -84,15 +80,19 @@ const Home: FC = () => {
               <label>Brush Radius</label>
               <input
                 onChange={(e) => {
+                  const MAX_BRUSH_SIZE = 100;
+                  const MIN_BRUSH_SIZE = 1;
+
                   setCanvasBrushRadius(
-                    Math.min(MAX_BRUSH_SIZE, Number(e.target.value))
+                    Math.max(
+                      Math.min(MAX_BRUSH_SIZE, Number(e.target.value)),
+                      MIN_BRUSH_SIZE
+                    )
                   );
                 }}
+                id="brush-size"
                 type="number"
-                id="quantity"
-                name="quantity"
-                min="1"
-                max={MAX_BRUSH_SIZE}
+                aria-label="ChangeBrushSize"
                 defaultValue={canvasBrushRadius}
                 className="border border-black w-full py-2 px-2 mt-2 focus:outline-none focus:ring"
               />
@@ -103,9 +103,10 @@ const Home: FC = () => {
                 onChange={(e) => {
                   setCanvasBrushColor(e.target.value);
                 }}
-                defaultValue={canvasBrushColor}
                 id="color"
                 type="color"
+                aria-label="ChangeBrushColor"
+                defaultValue={canvasBrushColor}
                 className="w-full px-2 py-1 mt-2 focus:outline-none focus:ring"
               />
             </div>
