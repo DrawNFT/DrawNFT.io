@@ -19,7 +19,6 @@
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
     "@types/react": "18.0.25",
-    "@vercel/analytics": "^0.1.5",
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "ipfs-http-client": "^59.0.0",

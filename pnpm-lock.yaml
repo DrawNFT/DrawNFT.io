@@ -14,7 +14,6 @@ specifiers:
   '@types/mocha': ^10.0.1
   '@types/react': 18.0.25
   '@typescript-eslint/eslint-plugin': ^5.0.0
-  '@vercel/analytics': ^0.1.5
   autoprefixer: 10.4.13
   babel-jest: ^29.3.1
   chai: ^4.3.7
@@ -50,7 +49,6 @@ dependencies:
   '@types/chai': 4.3.4
   '@types/mocha': 10.0.1
   '@types/react': 18.0.25
-  '@vercel/analytics': 0.1.5_react@18.2.0
   dotenv: 16.0.3
   ethers: 5.7.2
   ipfs-http-client: 59.0.0
@@ -2601,14 +2599,6 @@ packages:
       '@typescript-eslint/types': 5.45.0
       eslint-visitor-keys: 3.3.0
     dev: true
-
-  /@vercel/analytics/0.1.5_react@18.2.0:
-    resolution: {integrity: sha512-/k9N8Ea3Yc5A52GlkjzUEbi2vE/izClrOf++ryBkxEfrZM/OZwtHkdNw/QExZ1h/B67RCZLK7bCOnKKrhG7gTg==}
-    peerDependencies:
-      react: ^16.8||^17||^18
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}

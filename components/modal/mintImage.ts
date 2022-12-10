@@ -21,6 +21,23 @@ const mintImage = async (
   ipfsClient: IPFSHTTPClient,
   imageBlob: Blob
 ) => {
+  const signMessage = async (): Promise<ethers.Signature> => {
+    const signer = ethers.Wallet.fromMnemonic(
+      process.env.SIGNER_MNEMONIC || ''
+    );
+
+    // message to sign
+    const message = `${await nftContract.readNonce(account)}${account}`;
+    const messageHash = ethers.utils.id(message);
+    const messageHashArray = ethers.utils.arrayify(messageHash);
+
+    // sign hashed message
+    const signature = await signer.signMessage(messageHashArray);
+
+    // split signature
+    return ethers.utils.splitSignature(signature);
+  };
+
   const nftName = nftNameInput?.trim();
   const nftDescription = nftDescriptionInput?.trim();
 
@@ -44,22 +61,6 @@ const mintImage = async (
   setCurrentMintText('Process is starting...');
 
   try {
-    const signMessage = async (): Promise<ethers.Signature> => {
-      const signer = ethers.Wallet.fromMnemonic(
-        process.env.SIGNER_MNEMONIC || ''
-      );
-
-      // message to sign
-      const message = `${await nftContract.readNonce(account)}${account}`;
-      const messageHash = ethers.utils.id(message);
-      const messageHashArray = ethers.utils.arrayify(messageHash);
-
-      // sign hashed message
-      const signature = await signer.signMessage(messageHashArray);
-
-      // split signature
-      return ethers.utils.splitSignature(signature);
-    };
     setCurrentMintText('Signing the message...');
 
     const signature = await signMessage();

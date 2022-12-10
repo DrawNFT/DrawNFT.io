@@ -34,12 +34,12 @@ const Home: FC = () => {
       />
       <NavBar />
 
-      <div className="w-full h-full md:h-screen md:flex">
-        <div className="w-full relative overflow-hidden md:flex md:w-2/3 bg-gradient-to-tr from-blue-800 to-purple-700 justify-around items-center">
-          <div className="hidden md:block z-10 absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="hidden md:block z-10 absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="hidden md:block z-10 absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-          <div className="hidden md:block z-10 absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+      <div className="w-full h-full lg:h-screen lg:flex">
+        <div className="w-full relative overflow-hidden lg:w-2/3 bg-gradient-to-tr from-blue-800 to-purple-700 flex justify-around items-center">
+          <div className="hidden lg:block z-10 absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className="hidden lg:block z-10 absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className="hidden lg:block z-10 absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div className="hidden lg:block z-10 absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
           <div
             className={`z-10 border-2 border-sky-700 ${
               isCanvasDrawingMode ? 'cursor-pen' : 'cursor-eraser'
@@ -70,7 +70,7 @@ const Home: FC = () => {
             />
           </div>
         </div>
-        <div className="w-full relative overflow-hidden md:flex justify-around items-center md:w-1/3 p-12">
+        <div className="w-full relative overflow-hidden lg:flex justify-around items-center lg:w-1/3 p-12">
           <div className="mx-auto w-full bg-white">
             <h1 className="text-xl font-bold capitalize mb-2">
               Canvas Settings
@@ -111,7 +111,7 @@ const Home: FC = () => {
               />
             </div>
             <button
-              className="block w-full bg-gray-700 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-gray-700 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const eraseMode = canvasRef.current?.eraseMode;
                 if (eraseMode) {
@@ -123,7 +123,7 @@ const Home: FC = () => {
               Drawing Mode
             </button>
             <button
-              className="block w-full bg-gray-700 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-gray-700 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const eraseMode = canvasRef.current?.eraseMode;
                 if (eraseMode) {
@@ -135,7 +135,7 @@ const Home: FC = () => {
               Erasing Mode
             </button>
             <button
-              className="block w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const undo = canvasRef.current?.undo;
                 if (undo) {
@@ -146,7 +146,7 @@ const Home: FC = () => {
               Undo
             </button>
             <button
-              className="block w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-yellow-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const redo = canvasRef.current?.redo;
                 if (redo) {
@@ -157,7 +157,7 @@ const Home: FC = () => {
               Redo
             </button>
             <button
-              className="block w-full bg-red-500 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-red-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const clearCanvas = canvasRef.current?.clearCanvas;
                 if (clearCanvas) {
@@ -168,7 +168,7 @@ const Home: FC = () => {
               Erase
             </button>
             <button
-              className="block w-full bg-green-500 mt-6 py-2 rounded text-white font-semibold mb-2"
+              className="w-full bg-green-500 mt-6 py-2 rounded text-white font-semibold mb-2"
               onClick={() => {
                 const createImage = async () => {
                   const exportImage = canvasRef.current?.exportImage;

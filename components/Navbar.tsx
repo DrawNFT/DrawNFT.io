@@ -1,11 +1,9 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import Link from 'next/link';
 import { useWeb3Handler } from './utils/useWeb3Handler';
-import { useRouter } from 'next/router';
 
 const NavBar: FC = () => {
   const { account, nftContract } = useWeb3Handler();
-  const router = useRouter();
 
   return (
     <nav className="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40">
