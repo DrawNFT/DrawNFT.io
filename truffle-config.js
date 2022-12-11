@@ -90,7 +90,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           GOERLI_TEST_MNEMONIC,
-          `https://:${INFURA_WEB_THREE_PROEJECT_SECRET}@goerli.infura.io/v3/${INFURA_WEB_THREE_PROJECT_ID}`
+          `wss://:${INFURA_WEB_THREE_PROEJECT_SECRET}@goerli.infura.io/ws/v3/${INFURA_WEB_THREE_PROJECT_ID}`
         ),
       networkCheckTimeout: 10000,
       network_id: 5, // Goerli's id

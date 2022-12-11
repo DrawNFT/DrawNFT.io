@@ -19,7 +19,7 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
 
     address public signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
 
-    event MyEvent(string message);
+    event MintedNft(uint256 nftId);
 
     struct SignatureKeys { 
         uint8 v;
@@ -53,7 +53,7 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
         uint256 newTokenId = tokenCount.current();
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, externalTokenURI);
-        emit MyEvent("The function has been called successfully!");
+        emit MintedNft(newTokenId);
         return newTokenId;
     }
 

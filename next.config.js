@@ -12,6 +12,7 @@ const nextConfig = {
     WITHDRAW_ACCOUNT: process.env.WITHDRAW_ACCOUNT,
     INFURA_IPFS_PROJECT_ID: process.env.INFURA_IPFS_PROJECT_ID,
     INFURA_IPFS_PROJECT_SECRET: process.env.INFURA_IPFS_PROJECT_SECRET,
+    ENV: process.env.ENV,
   },
 };
 
