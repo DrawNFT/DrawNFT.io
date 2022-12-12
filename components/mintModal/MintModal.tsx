@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import MintView from './MintView';
-import Modal from './Modal';
+import Modal from '../modal/Modal';
 import { useAccountStore } from '../utils/useAccountStore';
 import { useNftContractStore } from '../utils/useNftContractStore';
 

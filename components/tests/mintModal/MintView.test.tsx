@@ -1,18 +1,20 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import MintView from '../../../components/modal/MintView';
+import MintView from '../../../components/mintModal/MintView';
 import { Dispatch, SetStateAction } from 'react';
-import { MintStatus } from '../../../components/modal/mintImage';
+import { MintStatus } from '../../mintModal/mintImage';
 
 let mintStatus: MintStatus;
+// let ipfsCreateMock = jest.fn();
 
-jest.mock('nft.storage', () => ({
-  __esModule: true,
-  NFTStorage: class {},
-}));
+// TODO: Can not mock `ipfs-http-client`.
+// jest.mock('ipfs-http-client', () => ({
+//   ...jest.requireActual('ipfs-http-client'),
+//   ipfsCreate: ipfsCreateMock,
+// }));
 
-jest.mock('../../../components/modal/mintImage', () => ({
+jest.mock('../../../components/mintModal/mintImage', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/modal/mintImage'),
+  ...jest.requireActual('../../../components/mintModal/mintImage'),
   // Since the function is exported as default, we have to call defualt here
   default: (
     setMintStatus: Dispatch<SetStateAction<MintStatus>>,

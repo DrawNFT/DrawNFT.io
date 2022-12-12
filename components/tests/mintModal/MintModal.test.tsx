@@ -1,4 +1,4 @@
-import MintModal from '../../../components/modal/MintModal';
+import MintModal from '../../../components/mintModal/MintModal';
 import { render } from '@testing-library/react';
 import React from 'react';
 
@@ -15,7 +15,7 @@ jest.mock(
     }
 );
 
-jest.mock('../../../components/modal/MintView', () => () => {
+jest.mock('../../../components/mintModal/MintView', () => () => {
   return (
     <>
       <h2>MintView COMPONENT</h2>

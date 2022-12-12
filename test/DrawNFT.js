@@ -50,28 +50,29 @@ contract('DrawNFT', ([owner, other]) => {
     );
   });
 
-  // // check that the correct nonce is returned for a given address
-  // it('returns correct nonce for given address', async () => {
-  //   // Increase the nonce for the owner address
-  //   const signature = await signMessage();
-  //   await drawNFT.safeMint(
-  //     'test',
-  //     {
-  //       v: signature.v,
-  //       s: signature.s,
-  //       r: signature.r,
-  //     },
-  //     {
-  //       from: owner,
-  //       sender: owner,
-  //       value: ethers.utils.parseEther('0.07'),
-  //     }
-  //   );
+  // TODO: this doesn work :(
+  // check that the correct nonce is returned for a given address
+  it('returns correct nonce for given address', async () => {
+    // Increase the nonce for the owner address
+    const signature = await signMessage();
+    await drawNFT.safeMint(
+      'test',
+      {
+        v: signature.v,
+        s: signature.s,
+        r: signature.r,
+      },
+      {
+        from: owner,
+        sender: owner,
+        value: ethers.utils.parseEther('0.07'),
+      }
+    );
 
-  //   // Read the nonce for the owner address and expect it to be 1
-  //   const nonce = await drawNFT.readNonce(owner);
-  //   expect(nonce).to.be.bignumber.equal(new BN(1));
-  // });
+    // Read the nonce for the owner address and expect it to be 1
+    const nonce = await drawNFT.readNonce(owner);
+    expect(nonce).to.be.bignumber.equal(new BN(1));
+  });
 
   // // check that the mint price is correctly enforced
   // it('enforces the correct mint price', async () => {

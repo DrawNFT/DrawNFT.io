@@ -1389,7 +1389,7 @@ packages:
     dependencies:
       '@libp2p/interface-peer-id': 1.1.0
       '@libp2p/interfaces': 3.0.4
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
       it-stream-types: 1.0.4
       uint8arraylist: 2.4.2
     transitivePeerDependencies:
@@ -1415,7 +1415,7 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       '@libp2p/interface-peer-id': 1.1.0
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1493,13 +1493,13 @@ packages:
     resolution: {integrity: sha512-vrWmfFadmix5Ab9l//oRQdQ7O3J5bGJpJRMSm21bHlQB0XV4xtNU6vMZBVXeu3Su79LgflEp37cjTFE3yKf3Hw==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@multiformats/multiaddr/11.0.12:
-    resolution: {integrity: sha512-Z69GTGKfFirGQhaLYZdcCLcwmKJlBOIVNxmMMqxXNhnsntBlLi+gSNzhaNB1YMEvPIn66UDh0x5p5FAMkC+t0Q==}
+  /@multiformats/multiaddr/11.1.0:
+    resolution: {integrity: sha512-yXOUhUR4O0zthRZBj66JO3PVpdhijp8TTeKO56bHL2iuOVNz+1f50K8bsqiea2tX5FjPZ2Iqk1DeW42EAY/aWQ==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       '@chainsafe/is-ip': 2.0.1
@@ -6310,7 +6310,7 @@ packages:
       '@libp2p/interface-peer-id': 1.1.0
       '@libp2p/interface-peer-info': 1.0.4
       '@libp2p/interface-pubsub': 3.0.1
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
       '@types/node': 18.11.9
       interface-datastore: 7.0.1
       ipfs-unixfs: 8.0.0
@@ -6324,7 +6324,7 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       '@libp2p/logger': 2.0.2
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
       '@multiformats/multiaddr-to-uri': 9.0.2
       any-signal: 3.0.1
       blob-to-it: 2.0.0
@@ -6356,7 +6356,7 @@ packages:
       '@ipld/dag-pb': 3.0.1
       '@libp2p/logger': 2.0.2
       '@libp2p/peer-id': 1.1.17
-      '@multiformats/multiaddr': 11.0.12
+      '@multiformats/multiaddr': 11.1.0
       any-signal: 3.0.1
       dag-jose: 3.0.1
       err-code: 3.0.1

@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Dispatch, SetStateAction } from 'react';
-import { IPFSHTTPClient } from 'ipfs-http-client/dist/src/types';
+import { IPFSHTTPClient } from 'ipfs-http-client';
 
 export enum MintStatus {
   NotStarted,
@@ -90,6 +90,7 @@ const mintImage = async (
       s: signature.s,
       r: signature.r,
     };
+
     const tx = await nftContract.safeMint(
       metaDataUri,
       messageVerifyAttributes,

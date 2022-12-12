@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import NavBar from '../components/Navbar';
 import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
 
-import MintModal from '../components/modal/MintModal';
+import MintModal from '../components/mintModal/MintModal';
 
 const Home: FC = () => {
   const [canvasBrushColor, setCanvasBrushColor] = useState<string>('#000000');

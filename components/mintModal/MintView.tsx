@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
-import * as IPFS from 'ipfs-http-client';
 import { useState } from 'react';
+import { create as ipfsCreate } from 'ipfs-http-client';
 import mintImage, { MintStatus } from './mintImage';
 
 type MintViewProps = {
@@ -22,7 +22,7 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
   const auth =
     'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
 
-  const ipfsClient = IPFS.create({
+  const ipfsClient = ipfsCreate({
     host: 'ipfs.infura.io',
     port: 5001,
     protocol: 'https',
