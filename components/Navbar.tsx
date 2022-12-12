@@ -41,7 +41,13 @@ const NavBar: FC = () => {
             )}
 
           {account ? (
-            <p>{account}</p>
+            <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://opensea.io/account"
+            >
+              {account}
+            </Link>
           ) : (
             <button
               onClick={() => {
