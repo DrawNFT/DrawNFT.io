@@ -1,15 +1,15 @@
 import { ethers } from 'ethers';
 import { useState } from 'react';
-import { create as ipfsCreate } from 'ipfs-http-client';
+
 import mintImage, { MintStatus } from './mintImage';
 
 type MintViewProps = {
-  imageBlob: Blob;
+  image: string;
   account: string;
   nftContract: ethers.Contract;
 };
 
-const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
+const MintView = ({ image, account, nftContract }: MintViewProps) => {
   const [nftName, setNftName] = useState<string>('');
   const [nftDescription, setNftDescription] = useState<string>('');
   const [currentMintText, setCurrentMintText] = useState<string>('');
@@ -17,27 +17,13 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
     MintStatus.NotStarted
   );
 
-  const projectId = process.env.INFURA_IPFS_PROJECT_ID;
-  const projectSecret = process.env.INFURA_IPFS_PROJECT_SECRET;
-  const auth =
-    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
-
-  const ipfsClient = ipfsCreate({
-    host: 'ipfs.infura.io',
-    port: 5001,
-    protocol: 'https',
-    headers: {
-      authorization: auth,
-    },
-  });
-
   switch (mintStatus) {
     case MintStatus.NotStarted: {
       return (
         <>
           <div className="flex justify-center">
             <img
-              src={URL.createObjectURL(imageBlob)}
+              src={image}
               className="max-w-xs max-h-xs border border-black m-3"
             />
           </div>
@@ -77,8 +63,7 @@ const MintView = ({ imageBlob, account, nftContract }: MintViewProps) => {
                   account,
                   nftName,
                   nftDescription,
-                  ipfsClient,
-                  imageBlob
+                  image
                 )
               }
             >

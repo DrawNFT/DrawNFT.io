@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Dispatch, SetStateAction } from 'react';
-import { IPFSHTTPClient } from 'ipfs-http-client';
+import fetchPostHelper from '../utils/fetchPostHelper';
 
 export enum MintStatus {
   NotStarted,
@@ -18,9 +18,20 @@ const mintImage = async (
   account: string,
   nftNameInput: string | undefined,
   nftDescriptionInput: string | undefined,
-  ipfsClient: IPFSHTTPClient,
-  imageBlob: Blob
+  image: string
 ) => {
+  const errorHandler = async <T>(
+    run: () => T,
+    errorText: string
+  ): Promise<T | undefined> => {
+    try {
+      return await run();
+    } catch {
+      setCurrentMintText(errorText);
+      setMintStatus(MintStatus.Done);
+      return undefined;
+    }
+  };
   const signMessage = async (): Promise<ethers.Signature> => {
     const signer = ethers.Wallet.fromMnemonic(
       process.env.SIGNER_MNEMONIC || ''
@@ -58,39 +69,56 @@ const mintImage = async (
   }
 
   setMintStatus(MintStatus.Ongoing);
-  setCurrentMintText('Process is starting...');
 
-  try {
-    setCurrentMintText('Signing the message...');
+  setCurrentMintText('Signing the message...');
+  const signature = await errorHandler(async () => {
+    return await signMessage();
+  }, 'Process Failed while signing the message! Make sure you are connected to the ETH network with your Wallet!');
 
-    const signature = await signMessage();
+  if (!signature) {
+    return;
+  }
 
-    setCurrentMintText('Image is uploading to IPFS...');
+  setCurrentMintText('Image is uploading to IPFS...');
+  const imageCid = await errorHandler(async () => {
+    const response = await fetchPostHelper<{ cid: string }>(
+      'ipfsImageHandler',
+      JSON.stringify({ imageData: image })
+    );
+    return response?.cid;
+  }, 'Process Failed while uploading the image! Make sure you are connected to the internet!');
 
-    const imageFile = new File([imageBlob], `image.png`, {
-      type: 'image/png',
-    });
-    const imageIpfsHash = (await ipfsClient.add(imageFile)).path;
+  if (!imageCid) {
+    return;
+  }
 
-    setCurrentMintText('Metadata is uploading to IPFS...');
+  setCurrentMintText('Metadata is uploading to IPFS...');
+  const metadataCid = await errorHandler(async () => {
+    const response = await fetchPostHelper<{ cid: string }>(
+      'ipfsMetadataHandler',
+      JSON.stringify({
+        name: nftName,
+        description: nftDescription,
+        image: `ipfs://${imageCid}`,
+      })
+    );
+    return response?.cid;
+  }, 'Process Failed while uploading the metadata! Make sure you are connected to the internet!');
 
-    const metaData = JSON.stringify({
-      name: nftName,
-      description: nftDescription,
-      image: `https://drawnft-io.infura-ipfs.io/ipfs/${imageIpfsHash}`,
-    });
+  if (!metadataCid) {
+    return;
+  }
 
-    const metadataIpfsHash = (await ipfsClient.add(metaData)).path;
+  const metaDataUri = `ipfs://${metadataCid}`;
+  const messageVerifyAttributes = {
+    v: signature.v,
+    s: signature.s,
+    r: signature.r,
+  };
 
-    setCurrentMintText('Waiting for the MetaMask confirmation...');
+  setCurrentMintText('Waiting for the MetaMask confirmation...');
 
-    const metaDataUri = `https://drawnft-io.infura-ipfs.io/ipfs/${metadataIpfsHash}`;
-    const messageVerifyAttributes = {
-      v: signature.v,
-      s: signature.s,
-      r: signature.r,
-    };
-
+  const isSuccess = await errorHandler(async () => {
     const tx = await nftContract.safeMint(
       metaDataUri,
       messageVerifyAttributes,
@@ -99,18 +127,18 @@ const mintImage = async (
       }
     );
 
-    setCurrentMintText('Waiting for the confirmation...');
-
     await tx.wait();
 
-    setCurrentMintText(
-      'Process Finished! You can check your masterpiece by using OpenSea'
-    );
-  } catch (e) {
-    setCurrentMintText(
-      `Process Failed! Make sure you are connected to the ETH network with your Wallet`
-    );
+    return true;
+  }, 'Process Failed while waiting for the MetaMask confirmation! Make sure you are accepted the transaction!');
+
+  if (!isSuccess) {
+    return;
   }
+
+  setCurrentMintText(
+    'Process Finished! You can check your masterpiece by using OpenSea'
+  );
   setMintStatus(MintStatus.Done);
 };
 

@@ -13,7 +13,8 @@ const Home: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const canvasRef = useRef<ReactSketchCanvasRef>(null);
-  const [imageBlob, setImageBlob] = useState<Blob | undefined>();
+  const [image, setImage] = useState<string | undefined>();
+  const [cacheToLocalStorage, setCacheToLocalStorage] = useState<boolean>(true);
 
   useEffect(() => {
     try {
@@ -30,7 +31,7 @@ const Home: FC = () => {
       <MintModal
         showModal={showModal}
         setShowModal={setShowModal}
-        imageBlob={imageBlob}
+        image={image}
       />
       <NavBar />
 
@@ -56,14 +57,14 @@ const Home: FC = () => {
               height="650px"
               onChange={async () => {
                 const exportPaths = canvasRef.current?.exportPaths;
-                if (exportPaths) {
+                if (exportPaths && cacheToLocalStorage) {
                   try {
                     localStorage.setItem(
                       'canvasPaths',
                       JSON.stringify(await exportPaths())
                     );
                   } catch (e: any) {
-                    console.error(e);
+                    setCacheToLocalStorage(false);
                   }
                 }
               }}
@@ -174,30 +175,7 @@ const Home: FC = () => {
                   const exportImage = canvasRef.current?.exportImage;
 
                   if (exportImage) {
-                    const dataURItoBlob = (dataURI: string): Blob => {
-                      var byteString = Buffer.from(
-                        dataURI.split(',')[1],
-                        'base64'
-                      );
-
-                      var mimeString = dataURI
-                        .split(',')[0]
-                        .split(':')[1]
-                        .split(';')[0];
-
-                      var ab = new ArrayBuffer(byteString.length);
-
-                      var ia = new Uint8Array(ab);
-
-                      for (var i = 0; i < byteString.length; i++) {
-                        ia[i] = byteString[i];
-                      }
-
-                      var blob = new Blob([ab], { type: mimeString });
-                      return blob;
-                    };
-                    const dataURI = await exportImage('png');
-                    setImageBlob(dataURItoBlob(dataURI));
+                    setImage(await exportImage('png'));
                   }
                 };
 

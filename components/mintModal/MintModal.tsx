@@ -7,10 +7,10 @@ import { useNftContractStore } from '../utils/useNftContractStore';
 type MintModalProps = {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  imageBlob?: Blob;
+  image?: string;
 };
 
-const MintModal = ({ showModal, setShowModal, imageBlob }: MintModalProps) => {
+const MintModal = ({ showModal, setShowModal, image }: MintModalProps) => {
   const account = useAccountStore((state) => state.account);
   const nftContract = useNftContractStore((state) => state.nftContract);
 
@@ -32,7 +32,7 @@ const MintModal = ({ showModal, setShowModal, imageBlob }: MintModalProps) => {
     );
   }
 
-  if (!imageBlob) {
+  if (!image) {
     return (
       <Modal
         showModal={showModal}
@@ -51,7 +51,7 @@ const MintModal = ({ showModal, setShowModal, imageBlob }: MintModalProps) => {
   return (
     <Modal showModal={showModal} setShowModal={setShowModal} title={modalTitle}>
       <MintView
-        imageBlob={imageBlob}
+        image={image}
         account={account}
         nftContract={nftContract}
       />
