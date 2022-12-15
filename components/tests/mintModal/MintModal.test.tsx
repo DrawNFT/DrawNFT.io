@@ -23,30 +23,26 @@ jest.mock('../../../components/mintModal/MintView', () => () => {
   );
 });
 
-const useAccountStoreFn = jest.fn();
-const useNftContractStoreFn = jest.fn();
+const useWeb3HandlerFn = jest.fn();
 
-jest.mock('../../../components/utils/useAccountStore', () => ({
+jest.mock('../../../components/utils/useWeb3Handler', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/utils/useAccountStore'),
-  useAccountStore: () => useAccountStoreFn(),
-}));
-
-jest.mock('../../../components/utils/useNftContractStore', () => ({
-  __esModule: true,
-  ...jest.requireActual('../../../components/utils/useNftContractStore'),
-  useNftContractStore: () => useNftContractStoreFn(),
+  ...jest.requireActual('../../../components/utils/useWeb3Handler'),
+  useWeb3Handler: () => useWeb3HandlerFn(),
 }));
 
 describe('MintModal Component Test', () => {
   const setShowModal = jest.fn();
-  const mBlob: any = jest.fn();
+  const image: string = 'image';
 
   it('Renders without image correctly', () => {
-    // given / when
-    useAccountStoreFn.mockReturnValue('useNftContractStore');
-    useNftContractStoreFn.mockReturnValue('useAccountStore');
+    // given
+    useWeb3HandlerFn.mockReturnValue({
+      account: 'account',
+      nftContract: 'nftContract',
+    });
 
+    // when
     const { container } = render(
       <MintModal showModal={true} setShowModal={setShowModal} />
     );
@@ -63,10 +59,13 @@ describe('MintModal Component Test', () => {
   });
 
   it('Renders without account correctly', () => {
-    // given / when
-    useAccountStoreFn.mockReturnValue(undefined);
-    useNftContractStoreFn.mockReturnValue('useAccountStore');
+    // given
+    useWeb3HandlerFn.mockReturnValue({
+      account: undefined,
+      nftContract: 'nftContract',
+    });
 
+    // when
     const { container } = render(
       <MintModal showModal={true} setShowModal={setShowModal} />
     );
@@ -83,10 +82,13 @@ describe('MintModal Component Test', () => {
   });
 
   it('Renders without nftContract correctly', () => {
-    // given / when
-    useAccountStoreFn.mockReturnValue('useNftContractStore');
-    useNftContractStoreFn.mockReturnValue(undefined);
+    // given
+    useWeb3HandlerFn.mockReturnValue({
+      account: 'account',
+      nftContract: undefined,
+    });
 
+    // when
     const { container } = render(
       <MintModal showModal={true} setShowModal={setShowModal} />
     );
@@ -103,15 +105,15 @@ describe('MintModal Component Test', () => {
   });
 
   it('Renders with all variables correctly', () => {
-    // given / when
-    useAccountStoreFn.mockReturnValue('useNftContractStore');
-    useNftContractStoreFn.mockReturnValue('useAccountStore');
+    // given
+    useWeb3HandlerFn.mockReturnValue({
+      account: 'account',
+      nftContract: 'nftContract',
+    });
+
+    // when
     const { container } = render(
-      <MintModal
-        showModal={true}
-        setShowModal={setShowModal}
-        imageBlob={mBlob}
-      />
+      <MintModal showModal={true} setShowModal={setShowModal} image={image} />
     );
 
     const modalText = container.querySelector('h1');

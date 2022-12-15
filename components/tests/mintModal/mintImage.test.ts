@@ -5,8 +5,7 @@ describe('Mint Image Function Test', () => {
   const setCurrentMintText = jest.fn();
   const nftContract: any = jest.fn();
   const account = 'account';
-  const ipfsClient: any = jest.fn();
-  const mBlob: any = jest.fn();
+  const image: string = 'image';
 
   beforeEach(() => {
     process.env.SIGNER_MNEMONIC = 'SIGNER_MNEMONIC';
@@ -27,8 +26,7 @@ describe('Mint Image Function Test', () => {
       account,
       nftNameInput,
       nftDescriptionInput,
-      ipfsClient,
-      mBlob
+      image
     );
 
     expect(setMintStatus).toBeCalledWith(MintStatus.Done);
@@ -53,8 +51,7 @@ describe('Mint Image Function Test', () => {
       account,
       nftNameInput,
       nftDescriptionInput,
-      ipfsClient,
-      mBlob
+      image
     );
 
     expect(setMintStatus).toBeCalledWith(MintStatus.Done);

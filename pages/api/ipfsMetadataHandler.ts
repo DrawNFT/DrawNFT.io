@@ -5,8 +5,9 @@ const ipfsClient = new NFTStorage({
   token: process.env.NFT_STORAGE_KEY || '',
 });
 
+type MetaData = { name: string; description: string; image: string };
 const getBlob = (body: string): Blob => {
-  const metaDataBody = JSON.parse(body);
+  const metaDataBody: MetaData = JSON.parse(body);
   const metaData = JSON.stringify({
     name: metaDataBody.name,
     description: metaDataBody.description,

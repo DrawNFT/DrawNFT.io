@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import MintView from './MintView';
 import Modal from '../modal/Modal';
-import { useAccountStore } from '../utils/useAccountStore';
-import { useNftContractStore } from '../utils/useNftContractStore';
+import { useWeb3Handler } from '../utils/useWeb3Handler';
 
 type MintModalProps = {
   showModal: boolean;
@@ -11,9 +10,7 @@ type MintModalProps = {
 };
 
 const MintModal = ({ showModal, setShowModal, image }: MintModalProps) => {
-  const account = useAccountStore((state) => state.account);
-  const nftContract = useNftContractStore((state) => state.nftContract);
-
+  const { account, nftContract } = useWeb3Handler();
   const modalTitle = 'Mint Your NFT!';
 
   if (!nftContract || !account) {

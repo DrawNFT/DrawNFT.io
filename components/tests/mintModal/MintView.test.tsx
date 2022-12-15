@@ -4,13 +4,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { MintStatus } from '../../mintModal/mintImage';
 
 let mintStatus: MintStatus;
-// let ipfsCreateMock = jest.fn();
-
-// TODO: Can not mock `ipfs-http-client`.
-// jest.mock('ipfs-http-client', () => ({
-//   ...jest.requireActual('ipfs-http-client'),
-//   ipfsCreate: ipfsCreateMock,
-// }));
 
 jest.mock('../../../components/mintModal/mintImage', () => ({
   __esModule: true,
@@ -28,7 +21,7 @@ jest.mock('../../../components/mintModal/mintImage', () => ({
 }));
 
 describe('MintView Component Test', () => {
-  const blob: Blob = new Blob(['a'.repeat(10)], { type: 'image/jpeg' });
+  const image: string = 'image';
   const nftContract: any = jest.fn();
   const account = 'account';
 
@@ -38,7 +31,7 @@ describe('MintView Component Test', () => {
 
     // when
     const { container } = render(
-      <MintView imageBlob={blob} account={account} nftContract={nftContract} />
+      <MintView image={image} account={account} nftContract={nftContract} />
     );
 
     // then
@@ -52,7 +45,7 @@ describe('MintView Component Test', () => {
 
     // when
     const { container } = render(
-      <MintView imageBlob={blob} account={account} nftContract={nftContract} />
+      <MintView image={image} account={account} nftContract={nftContract} />
     );
 
     const button = container.querySelector('button');
@@ -74,7 +67,7 @@ describe('MintView Component Test', () => {
 
     // when
     const { container } = render(
-      <MintView imageBlob={blob} account={account} nftContract={nftContract} />
+      <MintView image={image} account={account} nftContract={nftContract} />
     );
 
     const button = container.querySelector('button');
@@ -96,7 +89,7 @@ describe('MintView Component Test', () => {
 
     // when
     const { container } = render(
-      <MintView imageBlob={blob} account={account} nftContract={nftContract} />
+      <MintView image={image} account={account} nftContract={nftContract} />
     );
 
     const input = container.querySelector('input')!;
