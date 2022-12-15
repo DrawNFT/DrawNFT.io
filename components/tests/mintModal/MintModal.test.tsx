@@ -23,12 +23,19 @@ jest.mock('../../../components/mintModal/MintView', () => () => {
   );
 });
 
-const useWeb3HandlerFn = jest.fn();
+const useAccountStoreFn = jest.fn();
+const useNftContractStoreFn = jest.fn();
 
-jest.mock('../../../components/utils/useWeb3Handler', () => ({
+jest.mock('../../../components/utils/useAccountStore', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/utils/useWeb3Handler'),
-  useWeb3Handler: () => useWeb3HandlerFn(),
+  ...jest.requireActual('../../../components/utils/useAccountStore'),
+  useAccountStore: () => useAccountStoreFn(),
+}));
+
+jest.mock('../../../components/utils/useNftContractStore', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../components/utils/useNftContractStore'),
+  useNftContractStore: () => useNftContractStoreFn(),
 }));
 
 describe('MintModal Component Test', () => {
@@ -37,10 +44,8 @@ describe('MintModal Component Test', () => {
 
   it('Renders without image correctly', () => {
     // given
-    useWeb3HandlerFn.mockReturnValue({
-      account: 'account',
-      nftContract: 'nftContract',
-    });
+    useAccountStoreFn.mockReturnValue('useNftContractStore');
+    useNftContractStoreFn.mockReturnValue('useAccountStore');
 
     // when
     const { container } = render(
@@ -60,10 +65,8 @@ describe('MintModal Component Test', () => {
 
   it('Renders without account correctly', () => {
     // given
-    useWeb3HandlerFn.mockReturnValue({
-      account: undefined,
-      nftContract: 'nftContract',
-    });
+    useAccountStoreFn.mockReturnValue(undefined);
+    useNftContractStoreFn.mockReturnValue('useAccountStore');
 
     // when
     const { container } = render(
@@ -83,10 +86,8 @@ describe('MintModal Component Test', () => {
 
   it('Renders without nftContract correctly', () => {
     // given
-    useWeb3HandlerFn.mockReturnValue({
-      account: 'account',
-      nftContract: undefined,
-    });
+    useAccountStoreFn.mockReturnValue('useNftContractStore');
+    useNftContractStoreFn.mockReturnValue(undefined);
 
     // when
     const { container } = render(
@@ -106,10 +107,8 @@ describe('MintModal Component Test', () => {
 
   it('Renders with all variables correctly', () => {
     // given
-    useWeb3HandlerFn.mockReturnValue({
-      account: 'account',
-      nftContract: 'nftContract',
-    });
+    useAccountStoreFn.mockReturnValue('useNftContractStore');
+    useNftContractStoreFn.mockReturnValue('useAccountStore');
 
     // when
     const { container } = render(
