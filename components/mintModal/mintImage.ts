@@ -57,7 +57,6 @@ const mintImage = async (
   setCurrentMintText('Signing the message...');
   const signature = await errorHandler(async () => {
     const message = `${await nftContract.readNonce(account)}${account}`;
-    console.log('message', message);
     const response = await fetchPostHelper<{
       v: string;
       s: string;
