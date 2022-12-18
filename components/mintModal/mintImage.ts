@@ -63,7 +63,6 @@ const mintImage = async (
       s: string;
       r: string;
     }>('signCreator', JSON.stringify({ message }));
-    console.log('response', response);
     return response;
   }, 'Process Failed while signing the message! Make sure you are connected to the ETH network with your Wallet!');
 
