@@ -44,7 +44,7 @@ contract('DrawNFT', ([owner, other]) => {
   it('should fail when provided with an invalid signature', async () => {
     await expectRevert(
       drawNFT.safeMint('test', keys, {
-        value: ethers.utils.parseEther('0.07'),
+        value: ethers.utils.parseEther('0.04'),
       }),
       'Invalid Signature'
     );
@@ -65,7 +65,7 @@ contract('DrawNFT', ([owner, other]) => {
       {
         from: owner,
         sender: owner,
-        value: ethers.utils.parseEther('0.07'),
+        value: ethers.utils.parseEther('4'),
       }
     );
 

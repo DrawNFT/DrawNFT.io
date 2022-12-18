@@ -3,13 +3,13 @@
 exports[`Navbar Component Test Renders correctly with button click without account 1`] = `
 <div>
   <nav
-    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40"
+    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-900 sticky top-0 z-40"
   >
     <div
       class="flex flex-wrap items-center justify-between"
     >
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-4"
       >
         <a
           href="/"
@@ -37,7 +37,7 @@ exports[`Navbar Component Test Renders correctly with button click without accou
         </a>
       </span>
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-10"
       >
         <button>
           Connect Wallet
@@ -51,13 +51,13 @@ exports[`Navbar Component Test Renders correctly with button click without accou
 exports[`Navbar Component Test Renders correctly with withdraw payments button 1`] = `
 <div>
   <nav
-    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40"
+    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-900 sticky top-0 z-40"
   >
     <div
       class="flex flex-wrap items-center justify-between"
     >
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-4"
       >
         <a
           href="/"
@@ -85,7 +85,7 @@ exports[`Navbar Component Test Renders correctly with withdraw payments button 1
         </a>
       </span>
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-10"
       >
         <button>
           Withdraw Payments
@@ -106,13 +106,13 @@ exports[`Navbar Component Test Renders correctly with withdraw payments button 1
 exports[`Navbar Component Test Renders correctly without env 1`] = `
 <div>
   <nav
-    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40"
+    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-900 sticky top-0 z-40"
   >
     <div
       class="flex flex-wrap items-center justify-between"
     >
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-4"
       >
         <a
           href="/"
@@ -140,7 +140,7 @@ exports[`Navbar Component Test Renders correctly without env 1`] = `
         </a>
       </span>
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-10"
       >
         <a
           href="https://opensea.io/account"
@@ -158,13 +158,13 @@ exports[`Navbar Component Test Renders correctly without env 1`] = `
 exports[`Navbar Component Test render with account does not match with the process 1`] = `
 <div>
   <nav
-    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40"
+    class="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-900 sticky top-0 z-40"
   >
     <div
       class="flex flex-wrap items-center justify-between"
     >
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-4"
       >
         <a
           href="/"
@@ -192,7 +192,7 @@ exports[`Navbar Component Test render with account does not match with the proce
         </a>
       </span>
       <span
-        class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10"
+        class="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-10"
       >
         <a
           href="https://opensea.io/account"

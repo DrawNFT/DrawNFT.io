@@ -15,7 +15,7 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
     mapping (address => Counters.Counter) public nonces;
 
     uint256 public constant TOTAL_SUPPLY = 5555;
-    uint256 public constant MINT_PRICE = 0.07 ether;
+    uint256 public constant MINT_PRICE = 0.04 ether;
 
     address public signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
 

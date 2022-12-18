@@ -48,7 +48,7 @@ const WhitePaper = () => {
             your drawing.
           </li>
           <li className="mb-2">
-            Confirm the transaction and pay the minting fee of 0.07 ETH. This
+            Confirm the transaction and pay the minting fee of 0.04 ETH. This
             will mint your NFT and add it to your Ethereum wallet.
           </li>
           <li>

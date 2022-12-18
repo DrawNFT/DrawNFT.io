@@ -32,22 +32,6 @@ const mintImage = async (
       return undefined;
     }
   };
-  const signMessage = async (): Promise<ethers.Signature> => {
-    const signer = ethers.Wallet.fromMnemonic(
-      process.env.SIGNER_MNEMONIC || ''
-    );
-
-    // message to sign
-    const message = `${await nftContract.readNonce(account)}${account}`;
-    const messageHash = ethers.utils.id(message);
-    const messageHashArray = ethers.utils.arrayify(messageHash);
-
-    // sign hashed message
-    const signature = await signer.signMessage(messageHashArray);
-
-    // split signature
-    return ethers.utils.splitSignature(signature);
-  };
 
   const nftName = nftNameInput?.trim();
   const nftDescription = nftDescriptionInput?.trim();
@@ -72,7 +56,15 @@ const mintImage = async (
 
   setCurrentMintText('Signing the message...');
   const signature = await errorHandler(async () => {
-    return await signMessage();
+    const message = `${await nftContract.readNonce(account)}${account}`;
+    console.log('message', message);
+    const response = await fetchPostHelper<{
+      v: string;
+      s: string;
+      r: string;
+    }>('signCreator', JSON.stringify({ message }));
+    console.log('response', response);
+    return response;
   }, 'Process Failed while signing the message! Make sure you are connected to the ETH network with your Wallet!');
 
   if (!signature) {
@@ -109,21 +101,20 @@ const mintImage = async (
     return;
   }
 
-  const metaDataUri = `ipfs://${metadataCid}`;
-  const messageVerifyAttributes = {
-    v: signature.v,
-    s: signature.s,
-    r: signature.r,
-  };
-
   setCurrentMintText('Waiting for the MetaMask confirmation...');
-
   const isSuccess = await errorHandler(async () => {
+    const metaDataUri = `ipfs://${metadataCid}`;
+    const messageVerifyAttributes = {
+      v: signature.v,
+      s: signature.s,
+      r: signature.r,
+    };
+
     const tx = await nftContract.safeMint(
       metaDataUri,
       messageVerifyAttributes,
       {
-        value: ethers.utils.parseEther('0.07'),
+        value: ethers.utils.parseEther('0.04'),
       }
     );
 

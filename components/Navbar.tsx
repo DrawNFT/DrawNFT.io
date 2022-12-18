@@ -6,9 +6,9 @@ const NavBar: FC = () => {
   const { account, nftContract } = useWeb3Handler();
 
   return (
-    <nav className="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-violet-900 sticky top-0 z-40">
+    <nav className="w-full border-b border-gray-200 px-2 sm:px-4 py-2.5 bg-violet-900 sticky top-0 z-40">
       <div className="flex flex-wrap items-center justify-between">
-        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-4">
+        <span className="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-4">
           <Link href="/">Home</Link>
           <Link href="/whitepaper">White Paper</Link>
           <Link
@@ -27,7 +27,7 @@ const NavBar: FC = () => {
           </Link>
         </span>
 
-        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex gap-10">
+        <span className="self-center text-xl font-semibold whitespace-nowrap text-white flex gap-10">
           {account &&
             account?.toLowerCase() ===
               process.env.WITHDRAW_ACCOUNT?.toLowerCase() && (

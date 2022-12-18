@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import NavBar from '../components/Navbar';
 import { ReactSketchCanvas, ReactSketchCanvasRef } from 'react-sketch-canvas';
-
 import MintModal from '../components/mintModal/MintModal';
 
 const Home: FC = () => {
@@ -18,9 +17,11 @@ const Home: FC = () => {
 
   useEffect(() => {
     try {
-      canvasRef?.current?.loadPaths(
-        JSON.parse(localStorage.getItem('canvasPaths') || '[]')
-      );
+      const canvasPaths = localStorage.getItem('canvasPaths');
+      if (canvasPaths) {
+        canvasRef?.current?.clearCanvas();
+        canvasRef?.current?.loadPaths(JSON.parse(canvasPaths));
+      }
     } catch (e: any) {
       console.error(e);
     }
@@ -64,6 +65,9 @@ const Home: FC = () => {
                       JSON.stringify(await exportPaths())
                     );
                   } catch (e: any) {
+                    alert(
+                      'The website no longer saves drawings. Reloading will cause any changes to be lost. Please enable local storage to save your drawings automatically.'
+                    );
                     setCacheToLocalStorage(false);
                   }
                 }
