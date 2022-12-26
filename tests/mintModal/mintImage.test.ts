@@ -1,4 +1,4 @@
-import mintImage, { MintStatus } from '../../mintModal/mintImage';
+import mintImage, { MintStatus } from '../../components/mintModal/mintImage';
 
 describe('Mint Image Function Test', () => {
   const setMintStatus = jest.fn();

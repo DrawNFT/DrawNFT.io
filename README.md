@@ -9,9 +9,9 @@ We welcome all contributions to DrawNFT.io! Whether you're a seasoned developer 
 ### Setting up the development environment
 
 1. Fork the repository and clone it locally
-2. Install dependencies with `pnpm install`
-3. Compile and deploy contracts with `pnpm run test`
-4. Start the development server with `pnpm run dev`
+2. Install dependencies with `npm install`
+3. Compile and deploy contracts with `npm run test`
+4. Start the development server with `npm run dev`
 
 ### Submitting changes
 
@@ -29,15 +29,15 @@ To set up the project locally, follow these steps:
 
 ### Installing dependencies
 
-Run `pnpm install` to install all required dependencies.
+Run `npm install` to install all required dependencies.
 
 ### Compiling and deploying contracts
 
-Run `pnpm run test` to compile and deploy all contracts to a local test network.
+Run `npm run test` to compile and deploy all contracts to a local test network.
 
 ### Starting the development server
 
-Run `pnpm run dev` to start the development server and begin working on the project.
+Run `npm run dev` to start the development server and begin working on the project.
 
 ## Running tests
 
@@ -45,11 +45,11 @@ We have both Solidity and JavaScript tests in place to ensure the integrity of t
 
 ### Running Solidity tests
 
-Run `pnpm run test` to run all Solidity tests.
+Run `npm run test` to run all Solidity tests.
 
 ### Running JavaScript tests
 
-Run `pnpm run coverage` to run all JavaScript tests.
+Run `npm run coverage` to run all JavaScript tests.
 
 ## Deployment
 
@@ -61,11 +61,11 @@ Make sure you have a [wallet](https://wallet.ethereum.org/) and some Ether in it
 
 ### Deploying to a test network
 
-Run `pnpm run migrate --network rinkeby` to deploy the project to the Rinkeby test network.
+Run `npm run migrate --network rinkeby` to deploy the project to the Rinkeby test network.
 
 ### Deploying to mainnet
 
-Run `pnpm run migrate --network mainnet` to deploy the project to the main Ethereum network.
+Run `npm run migrate --network mainnet` to deploy the project to the main Ethereum network.
 
 ## License
 

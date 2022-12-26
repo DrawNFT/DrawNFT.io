@@ -1,11 +1,11 @@
-import Navbar from '../../../components/Navbar';
+import Navbar from '../../components/Navbar';
 import { render } from '@testing-library/react';
 
 const useWeb3HandlerFn = jest.fn();
 
-jest.mock('../../../components/utils/useWeb3Handler', () => ({
+jest.mock('../../components/utils/useWeb3Handler', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/utils/useWeb3Handler'),
+  ...jest.requireActual('../../components/utils/useWeb3Handler'),
   useWeb3Handler: () => useWeb3HandlerFn(),
 }));
 

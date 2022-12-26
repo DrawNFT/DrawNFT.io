@@ -1,13 +1,13 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import MintView from '../../../components/mintModal/MintView';
+import MintView from '../../components/mintModal/MintView';
 import { Dispatch, SetStateAction } from 'react';
-import { MintStatus } from '../../mintModal/mintImage';
+import { MintStatus } from '../../components/mintModal/mintImage';
 
 let mintStatus: MintStatus;
 
-jest.mock('../../../components/mintModal/mintImage', () => ({
+jest.mock('../../components/mintModal/mintImage', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/mintModal/mintImage'),
+  ...jest.requireActual('../../components/mintModal/mintImage'),
   // Since the function is exported as default, we have to call defualt here
   default: (
     setMintStatus: Dispatch<SetStateAction<MintStatus>>,

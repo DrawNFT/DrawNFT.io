@@ -1,4 +1,4 @@
-import fetchPostHelper from '../../utils/fetchPostHelper';
+import fetchPostHelper from '../../components/utils/fetchPostHelper';
 
 describe('fetchPostHelper', () => {
   it('should return data if the response does not contain an error', async () => {

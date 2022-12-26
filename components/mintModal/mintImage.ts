@@ -9,6 +9,8 @@ export enum MintStatus {
 }
 
 const NFT_NAME_MIN_LENGTH = 5;
+const NFT_NAME_MAX_LENGTH = 140;
+
 const NFT_DESC_MIN_LENGTH = 10;
 
 const mintImage = async (
@@ -36,10 +38,14 @@ const mintImage = async (
   const nftName = nftNameInput?.trim();
   const nftDescription = nftDescriptionInput?.trim();
 
-  if (!nftName || nftName.length < NFT_NAME_MIN_LENGTH) {
+  if (
+    !nftName ||
+    nftName.length < NFT_NAME_MIN_LENGTH ||
+    nftName.length > NFT_NAME_MAX_LENGTH
+  ) {
     setMintStatus(MintStatus.Done);
     setCurrentMintText(
-      `NFT name should have more than ${NFT_NAME_MIN_LENGTH} characters`
+      `NFT name should have more than ${NFT_NAME_MIN_LENGTH} characters and less than ${NFT_NAME_MAX_LENGTH} characters`
     );
     return;
   }
@@ -90,6 +96,12 @@ const mintImage = async (
         name: nftName,
         description: nftDescription,
         image: `ipfs://${imageCid}`,
+        attributes: [
+          {
+            trait_type: 'Generation',
+            value: '1',
+          },
+        ],
       })
     );
     return response?.cid;

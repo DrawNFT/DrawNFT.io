@@ -1,23 +1,22 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.16.0;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/security/PullPayment.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
+contract DrawNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
-    Counters.Counter public tokenCount;
+    Counters.Counter private tokenCount;
 
-    mapping (address => Counters.Counter) public nonces;
+    mapping (address => Counters.Counter) private nonces;
 
-    uint256 public constant TOTAL_SUPPLY = 5555;
-    uint256 public constant MINT_PRICE = 0.04 ether;
+    uint256 private constant TOTAL_SUPPLY = 5555;
+    uint256 private constant MINT_PRICE = 0.04 ether;
 
-    address public signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
+    address private signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
 
     event MintedNft(uint256 nftId);
 
@@ -44,7 +43,8 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
         nonces[msg.sender].increment();
     }
 
-    function safeMint(string memory externalTokenURI, SignatureKeys calldata keys) external payable verifyMessage(keys) returns (uint256) {
+
+    function safeMint(string calldata externalTokenURI, SignatureKeys calldata keys) external payable verifyMessage(keys) returns (uint256) {
         uint256 tokenId = tokenCount.current();
         require(tokenId < TOTAL_SUPPLY, "Exceeds token supply");
         require(msg.value >= MINT_PRICE, "Not enough ETH sent");
@@ -57,7 +57,7 @@ contract DrawNFT is ERC721URIStorage, PullPayment, Ownable {
         return newTokenId;
     }
 
-    function withdrawMintPayments() external onlyOwner virtual {
+    function withdrawMintPayments() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
     }
 

@@ -1,9 +1,9 @@
 import { ethers } from 'ethers';
 import create from 'zustand';
-import DrawNFTGoerli from '../../contracts/abi/goerli/DrawNFT.json';
-import DrawNFTAddressGoerli from '../../contracts/abi/goerli/DrawNFT-address.json';
-import DrawNFTMain from '../../contracts/abi/main/DrawNFT.json';
-import DrawNFTAddressMain from '../../contracts/abi/main/DrawNFT-address.json';
+import DrawNFTGoerli from '../../hardhat/contracts/abi/goerli/DrawNFT.json';
+import DrawNFTAddressGoerli from '../../hardhat/contracts/abi/goerli/DrawNFT-address.json';
+import DrawNFTMain from '../../hardhat/contracts/abi/main/DrawNFT.json';
+import DrawNFTAddressMain from '../../hardhat/contracts/abi/main/DrawNFT-address.json';
 interface NftContractState {
   nftContract?: ethers.Contract;
   setNftContract: () => void;

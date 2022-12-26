@@ -1,9 +1,9 @@
-import MintModal from '../../../components/mintModal/MintModal';
+import MintModal from '../../components/mintModal/MintModal';
 import { render } from '@testing-library/react';
 import React from 'react';
 
 jest.mock(
-  '../../../components/modal/Modal',
+  '../../components/modal/Modal',
   () =>
     ({ children }: { children: React.ReactNode }) => {
       return (
@@ -15,7 +15,7 @@ jest.mock(
     }
 );
 
-jest.mock('../../../components/mintModal/MintView', () => () => {
+jest.mock('../../components/mintModal/MintView', () => () => {
   return (
     <>
       <h2>MintView COMPONENT</h2>
@@ -26,15 +26,15 @@ jest.mock('../../../components/mintModal/MintView', () => () => {
 const useAccountStoreFn = jest.fn();
 const useNftContractStoreFn = jest.fn();
 
-jest.mock('../../../components/utils/useAccountStore', () => ({
+jest.mock('../../components/utils/useAccountStore', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/utils/useAccountStore'),
+  ...jest.requireActual('../../components/utils/useAccountStore'),
   useAccountStore: () => useAccountStoreFn(),
 }));
 
-jest.mock('../../../components/utils/useNftContractStore', () => ({
+jest.mock('../../components/utils/useNftContractStore', () => ({
   __esModule: true,
-  ...jest.requireActual('../../../components/utils/useNftContractStore'),
+  ...jest.requireActual('../../components/utils/useNftContractStore'),
   useNftContractStore: () => useNftContractStoreFn(),
 }));
 

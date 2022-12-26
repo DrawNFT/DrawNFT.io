@@ -1,27 +1,26 @@
 install:
-	pnpm install
+	npm install
 
 build:
-	pnpm run build
+	npm run build
 
 coverage:
-	pnpm run coverage
+	npm run coverage
 
 run:
-	pnpm run dev
+	npm run dev
 
 eslint:
-	pnpm run eslint
+	npm run eslint
 
 format:
-	pnpm run format
+	npm run format
 
 lint:
-	pnpm run lint
+	npm run lint
 
 start:
-	pnpm run start
+	npm run start
 
-testit:
-	pnpm run test
-	truffle test
+test:
+	npm run test
