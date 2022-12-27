@@ -18,8 +18,6 @@ contract DrawNFT is ERC721URIStorage, Ownable {
 
     address private signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
 
-    event MintedNft(uint256 nftId);
-
     struct SignatureKeys { 
         uint8 v;
         bytes32 r;
@@ -53,18 +51,11 @@ contract DrawNFT is ERC721URIStorage, Ownable {
         uint256 newTokenId = tokenCount.current();
         _safeMint(msg.sender, newTokenId);
         _setTokenURI(newTokenId, externalTokenURI);
-        emit MintedNft(newTokenId);
         return newTokenId;
     }
 
     function withdrawMintPayments() external onlyOwner {
         payable(msg.sender).transfer(address(this).balance);
-    }
-
-    function changeSignOwner(address newSignOwner) external onlyOwner {
-        require(newSignOwner != address(0), "Zero address provided.");
-
-        signOwner = newSignOwner;
     }
 
     function readNonce(address addr) external view returns (uint256) {
