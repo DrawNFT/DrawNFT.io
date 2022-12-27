@@ -219,6 +219,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     });
   }
 }
+
+type AlchemyWebhookType =
+  | 'MINED_TRANSACTION'
+  | 'DROPPED_TRANSACTION'
+  | 'ADDRESS_ACTIVITY';
 interface AlchemyWebhookEvent {
   webhookId: string;
   id: string;
@@ -226,8 +231,3 @@ interface AlchemyWebhookEvent {
   type: AlchemyWebhookType;
   event: Record<any, any>;
 }
-
-type AlchemyWebhookType =
-  | 'MINED_TRANSACTION'
-  | 'DROPPED_TRANSACTION'
-  | 'ADDRESS_ACTIVITY';
