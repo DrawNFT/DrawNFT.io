@@ -38,7 +38,7 @@ contract DrawNFT is ERC721URIStorage, Ownable {
         bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, hashedMessage));
 
         address signer = ecrecover(prefixedHashMessage, signatureKeys.v, signatureKeys.r, signatureKeys.s);
-        require(signer == signOwner, "Invalid Signature");
+        require(signer == signOwner, "The provided signature is invalid.");
         _;
         nonces[msg.sender].increment();
     }
@@ -46,8 +46,8 @@ contract DrawNFT is ERC721URIStorage, Ownable {
 
     function safeMint(string calldata externalTokenURI, SignatureKeys calldata keys) external payable verifyMessage(keys) returns (uint256) {
         uint256 tokenId = tokenCount.current();
-        require(tokenId < TOTAL_SUPPLY, "Exceeds token supply");
-        require(msg.value >= MINT_PRICE, "Not enough ETH sent");
+        require(tokenId < TOTAL_SUPPLY, "The requested action exceeds the available token supply.");
+        require(msg.value >= MINT_PRICE, "Insufficient ETH has been transmitted. The minimum required amount to mint an NFT is 0.04 ETH.");
 
         tokenCount.increment();
         uint256 newTokenId = tokenCount.current();
@@ -62,7 +62,7 @@ contract DrawNFT is ERC721URIStorage, Ownable {
     }
 
     function changeSignOwner(address newSignOwner) external onlyOwner {
-        require(newSignOwner != address(0), "The zero address");
+        require(newSignOwner != address(0), "Zero address provided.");
 
         signOwner = newSignOwner;
     }
