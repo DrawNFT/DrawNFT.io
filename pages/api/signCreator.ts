@@ -30,7 +30,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
         error: null,
       });
     } catch (e: any) {
-      res.status(200).json({
+      res.status(500).json({
         data: null,
         error: `Error: ${e}`,
       });

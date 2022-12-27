@@ -31,7 +31,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       const blob = getBlob(req.body);
       await answerWithCid(res, blob);
     } catch (e: any) {
-      res.status(200).json({
+      res.status(500).json({
         data: null,
         error: `Error: ${e}`,
       });
