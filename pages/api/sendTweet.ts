@@ -14,7 +14,7 @@ const {
   TWITTER_ACCESS_TOKEN_SECRET,
   ALCHEMY_MAIN_API_KEY,
   ALCHEMY_GOERLI_API_KEY,
-  ALCHEMY_TWEET_APP_ID,
+  ALCHEMY_TWEET_WEBHOOK_ID,
   NFT_CONTRACT_SIGNER,
   ENV,
 } = process.env;
@@ -171,7 +171,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     jsonBody = req.body;
   }
 
-  if (jsonBody.app_id !== ALCHEMY_TWEET_APP_ID) {
+  if (jsonBody.app_id !== ALCHEMY_TWEET_WEBHOOK_ID) {
     res.status(401).json({ data: null, error: 'Not Authorized' });
     return;
   }
