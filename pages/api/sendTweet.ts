@@ -7,6 +7,7 @@ import DrawNFTAddressMain from '../../hardhat/contracts/abi/main/DrawNFT-address
 import Twitter from 'twitter-lite';
 import axios from 'axios';
 import * as crypto from 'crypto';
+import getRawBody from 'raw-body';
 
 // Note: Please note that some responses may return a 200 status code due to the auto-retry mechanism implemented by Alchemy.
 // In these cases, retrying the request is not necessary and the response is marked as successful to prevent further retries by Alchemy.
@@ -175,31 +176,30 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).end();
   }
 
-  if (!req.body) {
-    // Don't retry
-    return res.status(200).send('Missing body');
-  }
-
+  const rawBodyBuffer = await getRawBody(req);
+  const rawBody = rawBodyBuffer.toString('utf-8');
   let jsonBody: AlchemyWebhookEvent;
   try {
-    jsonBody = JSON.parse(req.body);
+    jsonBody = JSON.parse(rawBody);
   } catch (e) {
-    jsonBody = req.body;
+    // Don't retry
+    return res
+      .status(200)
+      .json({ data: null, error: 'Could not parse the body' });
   }
 
-  // const signature = req.headers['x-alchemy-signature'] || '';
-  // var body = req.body.toString('utf8');
-  // if (
-  //   !isValidSignatureForStringBody(
-  //     body,
-  //     signature.toString(),
-  //     ALCHEMY_TWEET_SIGN_KEY || ''
-  //   )
-  // ) {
-  //   // Don't retry
-  //   res.status(200).json({ data: null, error: 'Not Authorized' });
-  //   return;
-  // }
+  const signature = req.headers['x-alchemy-signature'] || '';
+  if (
+    !isValidSignatureForStringBody(
+      rawBody,
+      signature.toString(),
+      ALCHEMY_TWEET_SIGN_KEY || ''
+    )
+  ) {
+    // Don't retry
+    res.status(200).json({ data: null, error: 'Not Authorized' });
+    return;
+  }
 
   try {
     for (let i = 0; i < jsonBody?.event?.activity.length; i++) {
@@ -231,3 +231,9 @@ type AlchemyWebhookType =
   | 'MINED_TRANSACTION'
   | 'DROPPED_TRANSACTION'
   | 'ADDRESS_ACTIVITY';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
