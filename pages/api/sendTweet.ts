@@ -187,8 +187,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       .status(200)
       .json({ data: null, error: 'Could not parse the body' });
   }
-  const signature = req.headers['x-alchemy-signature'] || '';
 
+  const signature = req.headers['x-alchemy-signature'] || '';
   if (
     !isValidSignatureForStringBody(
       rawBody,
