@@ -190,7 +190,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   const signature = req.headers['x-alchemy-signature'] || '';
   var body = req.body.toString('utf8');
   if (
-    isValidSignatureForStringBody(
+    !isValidSignatureForStringBody(
       body,
       signature.toString(),
       ALCHEMY_TWEET_SIGN_KEY || ''
@@ -206,7 +206,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       const currentActivity = jsonBody?.event?.activity[i];
       if (currentActivity?.erc721TokenId) {
         const nftId = parseInt(currentActivity?.erc721TokenId, 16);
-        nftInfoAndTweet(nftId, res);
+        await nftInfoAndTweet(nftId, res);
       }
     }
 
