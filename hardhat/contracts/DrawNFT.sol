@@ -16,7 +16,7 @@ contract DrawNFT is ERC721URIStorage, Ownable {
     uint256 private constant TOTAL_SUPPLY = 5555;
     uint256 private constant MINT_PRICE = 0.04 ether;
 
-    address private signOwner = 0x57c5abf82F08dd751645846b21ab14e8f4124Aa5;
+    address private signOwner = 0xea42F37AA4F90F8cCF3B007EA01c10fbB1613dc1;
 
     struct SignatureKeys { 
         uint8 v;
