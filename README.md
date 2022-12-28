@@ -17,7 +17,9 @@ We welcome all contributions to DrawNFT.io! Whether you're a seasoned developer 
 
 1. Create a new branch for your changes
 2. Make your changes and test them thoroughly
-3. Submit a pull request to the `develop` branch
+3. Submit a pull request to the `staging` branch
+
+We use the staging branch to test new changes before they are merged into the main branch. After testing, the staging branch will be merged into the main branch.
 
 ### Code of Conduct
 
@@ -45,11 +47,11 @@ We have both Solidity and JavaScript tests in place to ensure the integrity of t
 
 ### Running Solidity tests
 
-Run `npm run test` to run all Solidity tests.
+Run `npx hardhat test` to run all Solidity tests in the `hardhat` directory.
 
 ### Running JavaScript tests
 
-Run `npm run coverage` to run all JavaScript tests.
+Run `make test` to run all JavaScript tests.
 
 ## Deployment
 
@@ -61,7 +63,7 @@ Make sure you have a [wallet](https://wallet.ethereum.org/) and some Ether in it
 
 ### Deploying to a test network
 
-Run `npm run migrate --network rinkeby` to deploy the project to the Rinkeby test network.
+Run `npm run migrate --network goerli` to deploy the project to the Rinkeby test network.
 
 ### Deploying to mainnet
 
