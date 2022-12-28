@@ -204,8 +204,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     if (jsonBody?.event?.activity) {
       const currentActivity = jsonBody?.event?.activity.slice(-1)[0];
+      const nftId = parseInt(currentActivity?.erc721TokenId, 16);
       if (currentActivity?.erc721TokenId) {
-        const nftId = parseInt(currentActivity?.erc721TokenId, 16);
         await nftInfoAndTweet(nftId, res);
       }
     }
