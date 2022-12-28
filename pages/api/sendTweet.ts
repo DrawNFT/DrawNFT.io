@@ -6,7 +6,11 @@ import DrawNFTMain from '../../hardhat/contracts/abi/main/DrawNFT.json';
 import DrawNFTAddressMain from '../../hardhat/contracts/abi/main/DrawNFT-address.json';
 import Twitter from 'twitter-lite';
 import axios from 'axios';
+import * as crypto from 'crypto';
 
+// Note: Please note that some responses may return a 200 status code due to the auto-retry mechanism implemented by Alchemy.
+// In these cases, retrying the request is not necessary and the response is marked as successful to prevent further retries by Alchemy.
+// https://docs.alchemy.com/reference/notify-api-quickstart#webhook-retry-logic
 const {
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET,
@@ -14,7 +18,7 @@ const {
   TWITTER_ACCESS_TOKEN_SECRET,
   ALCHEMY_MAIN_API_KEY,
   ALCHEMY_GOERLI_API_KEY,
-  ALCHEMY_TWEET_WEBHOOK_ID,
+  ALCHEMY_TWEET_SIGN_KEY,
   NFT_CONTRACT_SIGNER,
   ENV,
 } = process.env;
@@ -81,8 +85,9 @@ const nftInfoAndTweet = async (nftId: number, res: NextApiResponse) => {
         ? DrawNFTAddressMain.address
         : DrawNFTAddressGoerli.address
     }/${nftId}`;
-    tweet(text, imageUrl, res);
+    await tweet(text, imageUrl, res);
   } catch (e) {
+    // Retry
     res.status(500).json({ data: null, error: `Error: ${e}` });
   }
 };
@@ -131,18 +136,21 @@ const tweet = async (text: string, imageUrl: string, res: NextApiResponse) => {
       const tweet = await uploadTwitterClientTweet(media.media_id_string);
 
       if (tweet) {
-        res.status(204).end();
+        return;
       } else {
+        // Retry
         res
           .status(500)
           .json({ data: null, error: `Error: Couldn't send tweet` });
       }
     } else {
+      // Retry
       res
         .status(500)
         .json({ data: null, error: `Error: No twitter media ID!` });
     }
   } else {
+    // Retry
     res.status(500).json({
       data: null,
       error: `Error: the axiosResponse is not successful`,
@@ -150,40 +158,76 @@ const tweet = async (text: string, imageUrl: string, res: NextApiResponse) => {
   }
 };
 
-type JsonBody = {
-  app_id: string;
-  nft_filters: Array<{ contract_address: string; token_id: string }>;
-};
+function isValidSignatureForStringBody(
+  body: string,
+  signature: string,
+  signingKey: string
+): boolean {
+  const hmac = crypto.createHmac('sha256', signingKey); // Create a HMAC SHA256 hash using the signing key
+  hmac.update(body, 'utf8'); // Update the token hash with the request body using utf8
+  const digest = hmac.digest('hex');
+  return signature === digest;
+}
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).end();
+    // Don't retry
+    return res.status(200).end();
   }
 
   if (!req.body) {
-    return res.status(400).send('Missing body');
+    // Don't retry
+    return res.status(200).send('Missing body');
   }
 
-  let jsonBody: JsonBody;
+  let jsonBody: AlchemyWebhookEvent;
   try {
     jsonBody = JSON.parse(req.body);
   } catch (e) {
     jsonBody = req.body;
   }
 
-  if (jsonBody.app_id !== ALCHEMY_TWEET_WEBHOOK_ID) {
-    res.status(401).json({ data: null, error: 'Not Authorized' });
+  const signature = req.headers['x-alchemy-signature'] || '';
+  var body = req.body.toString('utf8');
+  if (
+    isValidSignatureForStringBody(
+      body,
+      signature.toString(),
+      ALCHEMY_TWEET_SIGN_KEY || ''
+    )
+  ) {
+    // Don't retry
+    res.status(200).json({ data: null, error: 'Not Authorized' });
     return;
   }
 
   try {
-    const nftFilters = jsonBody.nft_filters;
-    const nftId = parseInt(nftFilters[nftFilters.length - 1].token_id, 10);
-    await nftInfoAndTweet(nftId, res);
+    for (let i = 0; i < jsonBody?.event?.activity.length; i++) {
+      const currentActivity = jsonBody?.event?.activity[i];
+      if (currentActivity?.erc721TokenId) {
+        const nftId = parseInt(currentActivity?.erc721TokenId, 16);
+        nftInfoAndTweet(nftId, res);
+      }
+    }
+
+    res.status(204).end();
   } catch (error) {
-    res.status(500).json({
+    // Don't retry
+    res.status(200).json({
       data: null,
       error: `Error: ${error}`,
     });
   }
 }
+interface AlchemyWebhookEvent {
+  webhookId: string;
+  id: string;
+  createdAt: Date;
+  type: AlchemyWebhookType;
+  event: Record<any, any>;
+}
+
+type AlchemyWebhookType =
+  | 'MINED_TRANSACTION'
+  | 'DROPPED_TRANSACTION'
+  | 'ADDRESS_ACTIVITY';
