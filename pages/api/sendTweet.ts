@@ -206,7 +206,8 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       const currentActivity = jsonBody?.event?.activity.slice(-1)[0];
       if (currentActivity?.erc721TokenId) {
         const nftId = parseInt(currentActivity?.erc721TokenId, 16);
-        await nftInfoAndTweet(nftId, res);
+        // Don't wait for the tweet. Send the response directly. So that alchemy is happy and it doesn't retry.
+        nftInfoAndTweet(nftId, res);
       }
     }
     res.status(204).end();
