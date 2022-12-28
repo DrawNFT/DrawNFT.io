@@ -202,16 +202,13 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const already_tweet = new Set();
-    for (let i = 0; i < jsonBody?.event?.activity.length; i++) {
-      const currentActivity = jsonBody?.event?.activity[i];
-      const nftId = parseInt(currentActivity?.erc721TokenId, 16);
-      if (currentActivity?.erc721TokenId && !already_tweet.has(nftId)) {
-        already_tweet.add(nftId);
+    if (jsonBody?.event?.activity) {
+      const currentActivity = jsonBody?.event?.activity.slice(-1)[0];
+      if (currentActivity?.erc721TokenId) {
+        const nftId = parseInt(currentActivity?.erc721TokenId, 16);
         await nftInfoAndTweet(nftId, res);
       }
     }
-
     res.status(204).end();
   } catch (error) {
     // Don't retry
