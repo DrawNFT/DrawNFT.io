@@ -170,7 +170,6 @@ function isValidSignatureForStringBody(
 }
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
-  console.log('REceived!!');
   if (req.method !== 'POST') {
     // Don't retry
     return res.status(200).end();
