@@ -187,19 +187,19 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     jsonBody = req.body;
   }
 
-  const signature = req.headers['x-alchemy-signature'] || '';
-  var body = req.body.toString('utf8');
-  if (
-    !isValidSignatureForStringBody(
-      body,
-      signature.toString(),
-      ALCHEMY_TWEET_SIGN_KEY || ''
-    )
-  ) {
-    // Don't retry
-    res.status(200).json({ data: null, error: 'Not Authorized' });
-    return;
-  }
+  // const signature = req.headers['x-alchemy-signature'] || '';
+  // var body = req.body.toString('utf8');
+  // if (
+  //   !isValidSignatureForStringBody(
+  //     body,
+  //     signature.toString(),
+  //     ALCHEMY_TWEET_SIGN_KEY || ''
+  //   )
+  // ) {
+  //   // Don't retry
+  //   res.status(200).json({ data: null, error: 'Not Authorized' });
+  //   return;
+  // }
 
   try {
     for (let i = 0; i < jsonBody?.event?.activity.length; i++) {
